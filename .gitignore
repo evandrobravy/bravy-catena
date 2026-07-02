@@ -15,3 +15,5 @@ api/generated/
 web/shot*.mjs
 # os
 .DS_Store
+# extração de histórico ClickUp (dados sensíveis, não versionar)
+extract/
