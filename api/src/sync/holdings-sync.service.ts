@@ -84,7 +84,19 @@ export class HoldingsSyncService {
       }
 
       // etapas
+      const prevStages = await this.prisma.clientStage.findMany({
+        where: { clientId: client.id },
+        select: { stageDefId: true, completedAt: true },
+      });
+      const prevCompleted = new Map(
+        prevStages.map((p) => [p.stageDefId, p.completedAt]),
+      );
       for (const s of m.stages) {
+        const completo = s.totalTasks > 0 && s.doneTasks === s.totalTasks;
+        // preserva a data da 1ª vez que completou (não re-datar a cada sync)
+        const completedAt = completo
+          ? prevCompleted.get(s.stageDefId) ?? new Date()
+          : null;
         await this.prisma.clientStage.upsert({
           where: {
             clientId_stageDefId: {
@@ -97,12 +109,12 @@ export class HoldingsSyncService {
             stageDefId: s.stageDefId,
             totalTasks: s.totalTasks,
             doneTasks: s.doneTasks,
-            completedAt: s.completedAt,
+            completedAt,
           },
           update: {
             totalTasks: s.totalTasks,
             doneTasks: s.doneTasks,
-            completedAt: s.completedAt,
+            completedAt,
           },
         });
 

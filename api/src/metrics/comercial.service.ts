@@ -16,9 +16,34 @@ export class ComercialService {
     });
   }
 
+  /**
+   * Estágio máximo atingido pelo lead no funil (SV=1, Projeto=2, Holding=3),
+   * combinando Lead.produtoVendido com os Deals vinculados (complemento quando
+   * o campo do lead está vazio no ClickUp).
+   */
+  private async estagioPorLead(leads: Lead[]): Promise<Map<string, number>> {
+    const NIVEL: Record<string, number> = { SV: 1, Projeto: 2, Holding: 3 };
+    const map = new Map<string, number>();
+    for (const l of leads) {
+      const n = l.produtoVendido ? NIVEL[l.produtoVendido] ?? 0 : 0;
+      if (n) map.set(l.clickupId, n);
+    }
+    const deals = await this.prisma.deal.findMany({
+      where: { leadClickupId: { not: null } },
+      select: { leadClickupId: true, tipo: true },
+    });
+    for (const d of deals) {
+      const n = NIVEL[d.tipo] ?? 0;
+      if (!d.leadClickupId || !n) continue;
+      map.set(d.leadClickupId, Math.max(map.get(d.leadClickupId) ?? 0, n));
+    }
+    return map;
+  }
+
   /** Dashboard Comercial por Seminário. */
   async seminario(filter: MetricsFilterDto) {
     const leads = await this.leads(filter);
+    const estagio = await this.estagioPorLead(leads);
     const seminarios = [
       ...new Set(leads.map((l) => l.seminario ?? '(sem seminário)')),
     ];
@@ -27,23 +52,24 @@ export class ComercialService {
       const grp = leads.filter((l) => (l.seminario ?? '(sem seminário)') === s);
       const agendamentos = grp.filter((l) => l.agendamento !== null).length;
       const reunioes = grp.filter((l) => l.realizada !== null).length;
-      const sv = grp.filter((l) => l.produtoVendido === 'SV').length;
-      const projetos = grp.filter((l) => l.produtoVendido === 'Projeto').length;
-      const holdings = grp.filter((l) => l.produtoVendido === 'Holding').length;
+      // funil cumulativo: quem chegou PELO MENOS até o estágio
+      const atingiuSV = grp.filter((l) => (estagio.get(l.clickupId) ?? 0) >= 1);
+      const atingiuProjeto = grp.filter((l) => (estagio.get(l.clickupId) ?? 0) >= 2);
+      const atingiuHolding = grp.filter((l) => (estagio.get(l.clickupId) ?? 0) >= 3);
       return {
         seminario: s,
         leads: grp.length,
         agendamentos,
         reunioes,
-        sv,
-        projetos,
-        holdings,
+        sv: atingiuSV.length,
+        projetos: atingiuProjeto.length,
+        holdings: atingiuHolding.length,
         conversoes: {
           leadReuniao: pct(reunioes, grp.length),
-          reuniaoSV: pct(sv, reunioes),
-          svProjeto: pct(projetos, sv),
-          projetoHolding: pct(holdings, projetos),
-          totalAteHolding: pct(holdings, grp.length),
+          reuniaoSV: pct(Math.min(atingiuSV.length, reunioes), reunioes),
+          svProjeto: pct(atingiuProjeto.length, atingiuSV.length),
+          projetoHolding: pct(atingiuHolding.length, atingiuProjeto.length),
+          totalAteHolding: pct(atingiuHolding.length, grp.length),
         },
       };
     });
@@ -52,7 +78,7 @@ export class ComercialService {
       porSeminario,
       avisos: {
         dados:
-          'Campos "Seminário de Origem" e "Produto Vendido" estão pouco preenchidos no ClickUp; os números populam conforme o comercial preenche.',
+          'Funil cumulativo (quem chegou pelo menos até o estágio), combinando "Produto Vendido" do lead com os deals de SV/Projeto vinculados. "Seminário de Origem" pouco preenchido no ClickUp; popula conforme o comercial preenche. 2º estágio (carrinho abandonado/diagnóstico) depende de campo próprio no ClickUp — pendência de input.',
       },
     };
   }
@@ -66,6 +92,10 @@ export class ComercialService {
       const grp = leads.filter((l) => (l.closer ?? '(sem closer)') === c);
       const reunioes = grp.filter((l) => l.realizada !== null).length;
       const fechamentos = grp.filter((l) => l.produtoVendido !== null).length;
+      // taxa coerente: fechamentos ENTRE os que tiveram reunião (nunca >100%)
+      const fechamentosComReuniao = grp.filter(
+        (l) => l.realizada !== null && l.produtoVendido !== null,
+      ).length;
       const faturamento = grp.reduce(
         (sum, l) => sum + (l.valor ? Number(l.valor) : 0),
         0,
@@ -74,7 +104,7 @@ export class ComercialService {
         closer: c,
         reunioes,
         fechamentos,
-        taxaFechamento: pct(fechamentos, reunioes),
+        taxaFechamento: pct(fechamentosComReuniao, reunioes),
         sv: grp.filter((l) => l.produtoVendido === 'SV').length,
         projetos: grp.filter((l) => l.produtoVendido === 'Projeto').length,
         holdings: grp.filter((l) => l.produtoVendido === 'Holding').length,

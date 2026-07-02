@@ -14,11 +14,15 @@ import {
 import { fetchMetric } from "@/lib/api";
 import { SERIES } from "@/lib/palette";
 import { JornadaData } from "@/lib/types";
+import { ModeloFilter } from "@/components/modelo-filter";
+import { useState } from "react";
 
 export default function JornadaPage() {
+  const [modelo, setModelo] = useState<string | null>(null);
   const { data, isLoading, error } = useQuery({
-    queryKey: ["jornada"],
-    queryFn: () => fetchMetric<JornadaData>("jornada"),
+    queryKey: ["jornada", modelo],
+    queryFn: () =>
+      fetchMetric<JornadaData>("jornada", modelo ? { modelo } : undefined),
   });
 
   return (
@@ -26,6 +30,7 @@ export default function JornadaPage() {
       <PageHeader
         title="Jornada do Cliente"
         subtitle="Onde os clientes estão na jornada e onde estagnam"
+        actions={<ModeloFilter value={modelo} onChange={setModelo} />}
       />
       {isLoading && <Loading />}
       {error && <ErrorState />}
@@ -39,21 +44,22 @@ export default function JornadaPage() {
               accent="violet"
             />
             <KpiCard label="Finalizados" value={data.finalizados} accent="green" />
-            {data.semEvolucao.slice(0, 2).map((s, i) => (
+            <KpiCard label="Sem tarefas vinculadas" value={data.semTarefasVinculadas} accent="amber" />
+            {data.semEvolucao.slice(2, 3).map((s) => (
               <KpiCard
                 key={s.dias}
                 label={`Sem evolução ≥ ${s.dias}d`}
                 value={s.clientes}
-                accent={i === 0 ? "amber" : "orange"}
+                accent="orange"
               />
             ))}
           </div>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
             <Card className="lg:col-span-3">
-              <ChartTitle>Clientes por etapa</ChartTitle>
+              <ChartTitle>Clientes por marco (visão macro)</ChartTitle>
               <BarChartCard
-                data={data.porEtapa.map((e) => ({
-                  label: e.etapa.replace(/^\d+\.\s*/, ""),
+                data={data.porMarco.map((e) => ({
+                  label: e.marco.replace(/^\d+\.\s*/, ""),
                   value: e.clientes,
                 }))}
                 horizontal
@@ -73,6 +79,18 @@ export default function JornadaPage() {
               />
             </Card>
           </div>
+          <Card>
+            <ChartTitle>Detalhe: clientes com tarefa aberta por etapa (top 12)</ChartTitle>
+            <BarChartCard
+              data={data.porEtapa.slice(0, 12).map((e) => ({
+                label: e.etapa,
+                value: e.clientes,
+              }))}
+              horizontal
+              multicolor
+              height={340}
+            />
+          </Card>
           <InfoNote>{data.avisos.semEvolucao}</InfoNote>
         </div>
       )}

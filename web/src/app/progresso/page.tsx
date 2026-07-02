@@ -13,11 +13,15 @@ import {
 import { fetchMetric } from "@/lib/api";
 import { SERIES } from "@/lib/palette";
 import { ProgressoData } from "@/lib/types";
+import { ModeloFilter } from "@/components/modelo-filter";
+import { useState } from "react";
 
 export default function ProgressoPage() {
+  const [modelo, setModelo] = useState<string | null>(null);
   const { data, isLoading, error } = useQuery({
-    queryKey: ["progresso"],
-    queryFn: () => fetchMetric<ProgressoData>("progresso"),
+    queryKey: ["progresso", modelo],
+    queryFn: () =>
+      fetchMetric<ProgressoData>("progresso", modelo ? { modelo } : undefined),
   });
 
   return (
@@ -25,6 +29,7 @@ export default function ProgressoPage() {
       <PageHeader
         title="Progresso"
         subtitle="Distribuição do progresso (% do checklist da holding)"
+        actions={<ModeloFilter value={modelo} onChange={setModelo} />}
       />
       {isLoading && <Loading />}
       {error && <ErrorState />}

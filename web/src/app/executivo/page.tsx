@@ -22,11 +22,15 @@ import {
 } from "@/components/ui";
 import { fetchMetric } from "@/lib/api";
 import { ExecutivoData } from "@/lib/types";
+import { ModeloFilter } from "@/components/modelo-filter";
+import { useState } from "react";
 
 export default function ExecutivoPage() {
+  const [modelo, setModelo] = useState<string | null>(null);
   const { data, isLoading, error } = useQuery({
-    queryKey: ["executivo"],
-    queryFn: () => fetchMetric<ExecutivoData>("executivo"),
+    queryKey: ["executivo", modelo],
+    queryFn: () =>
+      fetchMetric<ExecutivoData>("executivo", modelo ? { modelo } : undefined),
   });
 
   return (
@@ -34,6 +38,7 @@ export default function ExecutivoPage() {
       <PageHeader
         title="Executivo da Operação"
         subtitle="Tamanho e saúde da carteira em execução"
+        actions={<ModeloFilter value={modelo} onChange={setModelo} />}
       />
       {isLoading && <Loading />}
       {error && <ErrorState />}
@@ -43,15 +48,29 @@ export default function ExecutivoPage() {
             <KpiCard label="Clientes ativos" value={data.totais.ativos} accent="green" icon={Users} />
             <KpiCard label="Concluídos" value={data.totais.concluidos} accent="blue" icon={CheckCircle2} />
             <KpiCard label="Paralisados" value={data.totais.paralisados} accent="red" icon={PauseCircle} />
-            <KpiCard label="Em atraso" value={data.emAtraso} accent="orange" icon={AlertTriangle} />
+            <KpiCard
+              label="Em atraso"
+              value={data.emAtraso}
+              hint={`${data.emAtrasoDetalhe.comDueDateVencido} c/ due date vencido · ${data.emAtrasoDetalhe.semDueDateAcimaMeta} acima da meta de ${data.metaTotalDias}d`}
+              accent="orange"
+              icon={AlertTriangle}
+            />
           </div>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             <KpiCard
               label="Tempo médio na carteira"
               value={data.tempoMedioDias}
               suffix="dias"
               hint="Clientes ativos, desde a entrada"
               accent="violet"
+              icon={Clock}
+            />
+            <KpiCard
+              label="Tempo médio até concluir"
+              value={data.tempoMedioConcluidosDias}
+              suffix="dias"
+              hint="Holdings concluídas (margem operacional)"
+              accent="blue"
               icon={Clock}
             />
             <KpiCard
@@ -64,6 +83,18 @@ export default function ExecutivoPage() {
             />
             <KpiCard label="Total na carteira" value={data.totais.total} accent="emerald" icon={Layers} />
           </div>
+          <Card>
+            <ChartTitle>Tempo médio na carteira por modelo (dias)</ChartTitle>
+            <BarChartCard
+              data={data.tempoMedioPorModelo.map((m) => ({
+                label: m.modelo,
+                value: m.tempoMedioDias,
+              }))}
+              horizontal
+              multicolor
+              height={200}
+            />
+          </Card>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             <Card>
               <ChartTitle>Composição por modelo</ChartTitle>
