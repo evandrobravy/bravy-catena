@@ -1,0 +1,198 @@
+// Catena Dashboard — schema Prisma
+// Camada de cache/ETL/histórico do ClickUp. IDs do ClickUp preservados como chave natural.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Operacional: Holdings (= clientes) ───────────────────────────────
+
+model Client {
+  id           String   @id @default(cuid())
+  clickupId    String   @unique
+  name         String
+  status       String // aguardando iniciação | execução | em encerramento | paralisado | finalizado
+  modelo       String? // "1 Célula" | "2 Células" | "3 Células"
+  progresso    Float? // automatic_progress (0-100)
+  contador     String? // Interno | Externo
+  patrimonio   Decimal? @db.Decimal(14, 2) // Patrimônio DIRPF
+  currentStage Int? // etapa ativa derivada (última sem completedAt)
+  dueDate      DateTime? // vencimento do projeto
+  responsavel  String? // assignee da holding (secundário; ~sempre Jordana)
+  lastEvolutionAt DateTime? // máx. mudança de status entre as op tasks do cliente
+  dateCreated  DateTime
+  dateUpdated  DateTime
+
+  stages       ClientStage[]
+  statusEvents StatusEvent[]
+  snapshots    ClientSnapshot[]
+  opTasks      OpTask[]
+
+  @@index([status])
+  @@index([modelo])
+  @@map("clients")
+}
+
+// Catálogo estático das 12 etapas (marcos 01–12)
+model StageDef {
+  id       Int    @id // 1..12
+  code     String @unique // "01".."12"
+  name     String
+  slaDays  Int? // INPUT do cliente (tabela de SLA) — nullable no MVP
+
+  clientStages ClientStage[]
+
+  @@map("stage_defs")
+}
+
+// Etapas (marcos 01–08) por cliente — agregado das tarefas operacionais vinculadas
+model ClientStage {
+  id          String    @id @default(cuid())
+  clientId    String
+  stageDefId  Int
+  totalTasks  Int       @default(0) // qtd de tarefas operacionais vinculadas ao marco
+  doneTasks   Int       @default(0) // qtd concluídas (finalizado/finalizada)
+  completedAt DateTime? // preenchido quando doneTasks == totalTasks (>0)
+  tempoDias   Float? // campo "Tempo de XX" quando disponível
+
+  client   Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  stageDef StageDef @relation(fields: [stageDefId], references: [id])
+
+  @@unique([clientId, stageDefId])
+  @@map("client_stages")
+}
+
+// Tarefa operacional (space Operações) — vinculada a um cliente/etapa
+model OpTask {
+  id              String    @id @default(cuid())
+  clickupId       String    @unique
+  clientId        String? // resolvido via campos tasks 01–08 da holding
+  stageDefId      Int? // marco a que pertence
+  listId          String?
+  listName        String?
+  name            String
+  etapa           String? // nome normalizado da etapa (sem sufixo de cliente/typos)
+  status          String?
+  done            Boolean   @default(false)
+  assignee        String? // responsável real (esparso)
+  statusChangedAt DateTime? // atualizado via diffing entre syncs
+  startDate       DateTime?
+  dueDate         DateTime?
+  dateDone        DateTime?
+  dateCreated     DateTime?
+  dateUpdated     DateTime?
+
+  client Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  @@index([clientId])
+  @@index([stageDefId])
+  @@index([assignee])
+  @@index([etapa])
+  @@map("op_tasks")
+}
+
+// ─── Histórico / séries temporais (o que o ClickUp não entrega) ───────
+
+model StatusEvent {
+  id         String   @id @default(cuid())
+  clientId   String
+  entity     String // "client" | "opTask"
+  refId      String? // clickupId da entidade (client ou opTask)
+  fromStatus String?
+  toStatus   String
+  changedAt  DateTime
+  source     String? // cliente | interno | orgao_cartorio (INPUT do cliente)
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, changedAt])
+  @@map("status_events")
+}
+
+// Histórico real por task (backfill via activity log da sessão web do ClickUp)
+model OpTaskEvent {
+  id              String   @id @default(cuid())
+  opTaskClickupId String
+  kind            String // "status" | "list"
+  fromValue       String?
+  toValue         String
+  changedAt       DateTime
+
+  @@unique([opTaskClickupId, kind, changedAt, toValue])
+  @@index([opTaskClickupId, changedAt])
+  @@index([kind])
+  @@map("op_task_events")
+}
+
+model ClientSnapshot {
+  id           String   @id @default(cuid())
+  clientId     String
+  snapshotDate DateTime @db.Date
+  status       String
+  currentStage Int?
+  progresso    Float?
+  ageDays      Int // idade desde dateCreated (envelhecimento)
+  daysInStage  Int // dias na etapa atual
+  daysNoChange Int // dias desde a última StatusEvent (sem evolução)
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, snapshotDate])
+  @@index([snapshotDate])
+  @@map("client_snapshots")
+}
+
+// ─── Comercial ────────────────────────────────────────────────────────
+
+model Lead {
+  id             String    @id @default(cuid())
+  clickupId      String    @unique
+  name           String
+  status         String // oportunidade ... negócio fechado
+  seminario      String? // Seminário de Origem (01/02)
+  closer         String? // Closer (user)
+  produtoVendido String? // SV | Projeto | Holding
+  valor          Decimal?  @db.Decimal(14, 2)
+  agendamento    DateTime?
+  realizada      DateTime?
+  dateCreated    DateTime
+
+  @@index([seminario])
+  @@index([closer])
+  @@index([status])
+  @@map("leads")
+}
+
+model Deal {
+  id            String   @id @default(cuid())
+  clickupId     String   @unique
+  tipo          String // "SV" | "Projeto"
+  status        String
+  valor         Decimal? @db.Decimal(14, 2)
+  atendimento   String? // users
+  leadClickupId String?
+  dateCreated   DateTime
+
+  @@index([tipo])
+  @@index([status])
+  @@map("deals")
+}
+
+// ─── Observabilidade do ETL ───────────────────────────────────────────
+
+model SyncRun {
+  id         String    @id @default(cuid())
+  kind       String // "incremental" | "full" | "snapshot"
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+  status     String // running | ok | error
+  reqCount   Int       @default(0)
+  error      String?
+
+  @@map("sync_runs")
+}

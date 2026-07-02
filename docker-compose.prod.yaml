@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: catena
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: catena
+    volumes:
+      - catena_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catena -d catena"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - SERVICE_FQDN_API_3001=https://catena-api.bravy.com.br
+      - DATABASE_URL=postgresql://catena:${POSTGRES_PASSWORD}@postgres:5432/catena?schema=public
+      - CLICKUP_API_KEY=${CLICKUP_API_KEY}
+      - CLICKUP_WORKSPACE_ID=${CLICKUP_WORKSPACE_ID}
+      - CLICKUP_LIST_HOLDINGS=901312469530
+      - CLICKUP_LIST_SEMINARIOS=901318623881
+      - CLICKUP_LIST_SESSAO_VIAB=901318623918
+      - CLICKUP_LIST_PROJETO_ESTRUTURAL=901318623960
+      - CLICKUP_LIST_GESTAO_CLIENTES=901312834773
+      - CLICKUP_SPACE_OPERACOES=90137977918
+      - PORT=3001
+      - SYNC_TOKEN=${SYNC_TOKEN}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3001/api/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=https://catena-api.bravy.com.br/api
+    restart: unless-stopped
+    environment:
+      - SERVICE_FQDN_WEB_3000=https://catena.bravy.com.br
+    depends_on:
+      - api
+
+volumes:
+  catena_pgdata:

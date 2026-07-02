@@ -1,0 +1,17 @@
+# deps
+node_modules/
+# builds
+dist/
+.next/
+# env / secrets — NUNCA versionar
+.env
+.env.*
+!.env.example
+# prisma generated
+api/generated/
+# logs / tmp
+*.log
+# playwright screenshots scripts (dev)
+web/shot*.mjs
+# os
+.DS_Store

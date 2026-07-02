@@ -1,0 +1,2651 @@
+{
+  "workspaceId": "9013729897",
+  "extractedAt": "2026-07-02T03:09:28.263Z",
+  "spaces": [
+    {
+      "id": "90136115450",
+      "name": "Comercial",
+      "archived": false,
+      "folders": [
+        {
+          "id": "901312286581",
+          "name": "Área de Vendas",
+          "lists": [
+            {
+              "id": "901318623879",
+              "name": "Recuperação de Vendas",
+              "taskCount": 19,
+              "statuses": [
+                {
+                  "status": "oportunidade",
+                  "type": "open"
+                },
+                {
+                  "status": "em qualificação",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "no-show",
+                  "type": "custom"
+                },
+                {
+                  "status": "em follow up",
+                  "type": "custom"
+                },
+                {
+                  "status": "desqualficiado",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "negócio fechado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901318623881",
+              "name": "Palestras & Seminários",
+              "taskCount": 4,
+              "statuses": [
+                {
+                  "status": "oportunidade",
+                  "type": "open"
+                },
+                {
+                  "status": "em qualificação",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "no-show",
+                  "type": "custom"
+                },
+                {
+                  "status": "em follow up",
+                  "type": "custom"
+                },
+                {
+                  "status": "desqualficiado",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "negócio fechado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901318626787",
+              "name": "VSL",
+              "taskCount": 1,
+              "statuses": [
+                {
+                  "status": "oportunidade",
+                  "type": "open"
+                },
+                {
+                  "status": "em qualificação",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "no-show",
+                  "type": "custom"
+                },
+                {
+                  "status": "em follow up",
+                  "type": "custom"
+                },
+                {
+                  "status": "desqualficiado",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "negócio fechado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901318623880",
+              "name": "Indicação",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "oportunidade",
+                  "type": "open"
+                },
+                {
+                  "status": "em qualificação",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "no-show",
+                  "type": "custom"
+                },
+                {
+                  "status": "em follow up",
+                  "type": "custom"
+                },
+                {
+                  "status": "desqualficiado",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "negócio fechado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901318626525",
+              "name": "Social Selling",
+              "taskCount": 571,
+              "statuses": [
+                {
+                  "status": "oportunidade",
+                  "type": "open"
+                },
+                {
+                  "status": "em qualificação",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "no-show",
+                  "type": "custom"
+                },
+                {
+                  "status": "em follow up",
+                  "type": "custom"
+                },
+                {
+                  "status": "desqualficiado",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "negócio fechado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "90137867095",
+          "name": "CRM",
+          "lists": [
+            {
+              "id": "901318623918",
+              "name": "Sessão de Viabilidade",
+              "taskCount": 24,
+              "statuses": [
+                {
+                  "status": "aguardando formulário",
+                  "type": "open"
+                },
+                {
+                  "status": "aguardando agendamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "sessão agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "no-show",
+                  "type": "custom"
+                },
+                {
+                  "status": "em follow up",
+                  "type": "custom"
+                },
+                {
+                  "status": "desqualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "projeto fechado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901318623960",
+              "name": "Projeto Estrutural",
+              "taskCount": 13,
+              "statuses": [
+                {
+                  "status": "aguardando documentos",
+                  "type": "open"
+                },
+                {
+                  "status": "projeto em elaboração",
+                  "type": "custom"
+                },
+                {
+                  "status": "apresentação & entrega",
+                  "type": "custom"
+                },
+                {
+                  "status": "no-show",
+                  "type": "custom"
+                },
+                {
+                  "status": "em follow up",
+                  "type": "custom"
+                },
+                {
+                  "status": "ag. sinal",
+                  "type": "custom"
+                },
+                {
+                  "status": "perdido",
+                  "type": "done"
+                },
+                {
+                  "status": "perdido qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "holding contratada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901312834773",
+              "name": "Gestão de Clientes",
+              "taskCount": 3,
+              "statuses": [
+                {
+                  "status": "novo cliente",
+                  "type": "open"
+                },
+                {
+                  "status": "encerrado",
+                  "type": "done"
+                },
+                {
+                  "status": "ativo",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901318422504",
+          "name": "Solicitações",
+          "lists": [
+            {
+              "id": "901327544631",
+              "name": "Solicitações",
+              "taskCount": 1,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "devolvido/pendência",
+                  "type": "custom"
+                },
+                {
+                  "status": "realizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "folderlessLists": []
+    },
+    {
+      "id": "90138094892",
+      "name": "Gestão",
+      "archived": false,
+      "folders": [
+        {
+          "id": "901310669766",
+          "name": "Cadastros",
+          "lists": [
+            {
+              "id": "901316754470",
+              "name": "Contatos",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para cadastrar",
+                  "type": "open"
+                },
+                {
+                  "status": "cadastrado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901317888157",
+              "name": "Empresas",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para cadastrar",
+                  "type": "open"
+                },
+                {
+                  "status": "cadastrada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901310008160",
+          "name": "Agendas",
+          "lists": [
+            {
+              "id": "901315823943",
+              "name": "Agenda Interna",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "não realizada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901315823976",
+              "name": "Agenda Comercial",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "não realizada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901315823989",
+              "name": "Agenda de Cliente",
+              "taskCount": 99,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "reunião agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "não realizada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901310008491",
+          "name": "Gestão de Entregas",
+          "lists": [
+            {
+              "id": "901315824463",
+              "name": "Envios",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para enviar",
+                  "type": "open"
+                },
+                {
+                  "status": "em separação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em rota",
+                  "type": "custom"
+                },
+                {
+                  "status": "devolvido",
+                  "type": "done"
+                },
+                {
+                  "status": "entregue",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901312294546",
+          "name": "Jurídico",
+          "lists": [
+            {
+              "id": "901318633784",
+              "name": "Gestão Contratual",
+              "taskCount": 2,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração & ajustes",
+                  "type": "custom"
+                },
+                {
+                  "status": "em avaliação & assinatura",
+                  "type": "custom"
+                },
+                {
+                  "status": "em vigor",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901312653093",
+          "name": "Financeiro",
+          "lists": [
+            {
+              "id": "901319093728",
+              "name": "BPO Operacional",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "solicitação de pagamentos",
+                  "type": "open"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "não autorizado",
+                  "type": "done"
+                },
+                {
+                  "status": "autorizado",
+                  "type": "done"
+                },
+                {
+                  "status": "pago",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901326928982",
+              "name": "BPO Financeiro",
+              "taskCount": 2,
+              "statuses": [
+                {
+                  "status": "solicitação de pagamentos",
+                  "type": "open"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "não autorizado",
+                  "type": "done"
+                },
+                {
+                  "status": "autorizado",
+                  "type": "done"
+                },
+                {
+                  "status": "pago",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901327273403",
+              "name": "Apuração e Relatórios",
+              "taskCount": 1,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em progresso",
+                  "type": "custom"
+                },
+                {
+                  "status": "devolvido/pendência",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901327273615",
+              "name": "Tickets & Solicitações",
+              "taskCount": 5,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "devolvido/pendência",
+                  "type": "custom"
+                },
+                {
+                  "status": "realizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901312653106",
+          "name": "Processos & POPs",
+          "lists": [
+            {
+              "id": "901319093745",
+              "name": "Mapeamento & Implementação",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em desenvolvimento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em implementação",
+                  "type": "custom"
+                },
+                {
+                  "status": "ativo",
+                  "type": "custom"
+                },
+                {
+                  "status": "em atualização",
+                  "type": "custom"
+                },
+                {
+                  "status": "descontinuado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "folderlessLists": []
+    },
+    {
+      "id": "90135866781",
+      "name": "Projetos",
+      "archived": false,
+      "folders": [
+        {
+          "id": "90137609897",
+          "name": "Painel de Projetos",
+          "lists": [
+            {
+              "id": "901312469530",
+              "name": "Holdings",
+              "taskCount": 66,
+              "statuses": [
+                {
+                  "status": "aguardando iniciação",
+                  "type": "open"
+                },
+                {
+                  "status": "execução",
+                  "type": "custom"
+                },
+                {
+                  "status": "em encerramento",
+                  "type": "custom"
+                },
+                {
+                  "status": "paralisado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319467867",
+              "name": "Iniciativas de Marketing",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "ideia",
+                  "type": "open"
+                },
+                {
+                  "status": "definido",
+                  "type": "unstarted"
+                },
+                {
+                  "status": "em planejamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em execução",
+                  "type": "custom"
+                },
+                {
+                  "status": "em encerramento",
+                  "type": "custom"
+                },
+                {
+                  "status": "paralisado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901312834762",
+              "name": "Offshore",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "backlog",
+                  "type": "open"
+                },
+                {
+                  "status": "em execução",
+                  "type": "custom"
+                },
+                {
+                  "status": "em encerramento",
+                  "type": "custom"
+                },
+                {
+                  "status": "paralisado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901312951564",
+          "name": "Funis & Lançamentos",
+          "lists": [
+            {
+              "id": "901319467910",
+              "name": "Setup",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319467943",
+              "name": "Construção de Lista",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319467951",
+              "name": "Aquecimento",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319467960",
+              "name": "Evento",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319467982",
+              "name": "Carrinho Aberto",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319467989",
+              "name": "Debriefing",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "folderlessLists": []
+    },
+    {
+      "id": "90137977918",
+      "name": "Operações",
+      "archived": false,
+      "folders": [
+        {
+          "id": "90139926604",
+          "name": "Gestão de Documentos",
+          "lists": [
+            {
+              "id": "901315709973",
+              "name": "Solicitação de Documentos",
+              "taskCount": 103,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "solicitado",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901315709992",
+              "name": "Análise de Documentos",
+              "taskCount": 14,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "pendência",
+                  "type": "custom"
+                },
+                {
+                  "status": "agendamento de reunião",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901315710051",
+              "name": "Envio de Documentos",
+              "taskCount": 52,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "enviado ao cliente",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração & ajustes",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião de apresentação",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "90139926648",
+          "name": "Gestão de Minutas",
+          "lists": [
+            {
+              "id": "901315710032",
+              "name": "Elaboração das Minutas",
+              "taskCount": 428,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração & ajustes",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "90139926665",
+          "name": "Legalização de Empresas",
+          "lists": [
+            {
+              "id": "901315710076",
+              "name": "Abertura de Empresas",
+              "taskCount": 13,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "em pendência",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901315710093",
+              "name": "Alteração de Empresa",
+              "taskCount": 46,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "em pendência",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "90139926699",
+          "name": "Atos Bancários",
+          "lists": [
+            {
+              "id": "901315710164",
+              "name": "Abertura de Conta",
+              "taskCount": 81,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "abertura solicitada",
+                  "type": "custom"
+                },
+                {
+                  "status": "aguardando abertura",
+                  "type": "custom"
+                },
+                {
+                  "status": "aguardando depósito",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "90139926753",
+          "name": "ITBI",
+          "lists": [
+            {
+              "id": "901315825364",
+              "name": "Avaliação de Imóveis",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "pendência",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião de alinhamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901315710263",
+              "name": "Não Incidência - Prefeitura",
+              "taskCount": 56,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "pedido indeferido",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião de alinhamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "fazer recurso",
+                  "type": "custom"
+                },
+                {
+                  "status": "recurso em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "itbi para pagamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "guia de itbi paga",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901316658517",
+              "name": "Não Incidência - Judicial",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "realizado",
+                  "type": "custom"
+                },
+                {
+                  "status": "em monitoramento",
+                  "type": "custom"
+                },
+                {
+                  "status": "sentença",
+                  "type": "custom"
+                },
+                {
+                  "status": "fazer recurso",
+                  "type": "custom"
+                },
+                {
+                  "status": "recurso em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "recurso improvido",
+                  "type": "done"
+                },
+                {
+                  "status": "recurso provido",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901310009731",
+          "name": "RGI",
+          "lists": [
+            {
+              "id": "901315826239",
+              "name": "Transferência de Propriedade",
+              "taskCount": 38,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "pedido indeferido",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião de alinhamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "fazer recurso",
+                  "type": "custom"
+                },
+                {
+                  "status": "recurso em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "guia para pagamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "guia de custas paga",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901310668292",
+          "name": "Transferência Bens Diversos",
+          "lists": [
+            {
+              "id": "901315710310",
+              "name": "Ações & Títulos",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "organização de documentos",
+                  "type": "custom"
+                },
+                {
+                  "status": "enviar para corretora",
+                  "type": "custom"
+                },
+                {
+                  "status": "enviar para assessor",
+                  "type": "custom"
+                },
+                {
+                  "status": "em exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião de alinhamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "cumprindo exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "monitoramento de exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "aguardando transferência",
+                  "type": "custom"
+                },
+                {
+                  "status": "transferência realizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901315826695",
+              "name": "Veículos & Maquinários",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "organização de documentos",
+                  "type": "custom"
+                },
+                {
+                  "status": "enviar para despachanete",
+                  "type": "custom"
+                },
+                {
+                  "status": "enviar para crva / detran",
+                  "type": "custom"
+                },
+                {
+                  "status": "em exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "reunião de alinhamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "cumprindo exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "monitoramento de exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "aguardando transferência",
+                  "type": "custom"
+                },
+                {
+                  "status": "transferência realizada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901310010460",
+          "name": "ITCMD",
+          "lists": [
+            {
+              "id": "901315827292",
+              "name": "Doação de Cotas",
+              "taskCount": 35,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em exigência",
+                  "type": "custom"
+                },
+                {
+                  "status": "pedido indeferido",
+                  "type": "custom"
+                },
+                {
+                  "status": "fazer recurso",
+                  "type": "custom"
+                },
+                {
+                  "status": "recurso em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "itcmd para pagamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "guia de itcmd paga",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901310668672",
+          "name": "Compliance / Entrega",
+          "lists": [
+            {
+              "id": "901316659315",
+              "name": "Revisão de Estrutura",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901316659496",
+              "name": "Manual da Holding",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração & ajustes",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "folderlessLists": []
+    },
+    {
+      "id": "90138892242",
+      "name": "Gente & Cultura",
+      "archived": false,
+      "folders": [
+        {
+          "id": "901311081661",
+          "name": "Área de Contratação",
+          "lists": [
+            {
+              "id": "901317273927",
+              "name": "Gestão de Vagas",
+              "taskCount": 1,
+              "statuses": [
+                {
+                  "status": "solicitação recebida",
+                  "type": "open"
+                },
+                {
+                  "status": "em validação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em preparação",
+                  "type": "custom"
+                },
+                {
+                  "status": "aberta",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901317273955",
+              "name": "Banco de Talentos",
+              "taskCount": 1,
+              "statuses": [
+                {
+                  "status": "novo",
+                  "type": "open"
+                },
+                {
+                  "status": "em triagem",
+                  "type": "custom"
+                },
+                {
+                  "status": "em pipeline",
+                  "type": "custom"
+                },
+                {
+                  "status": "contato realizado",
+                  "type": "custom"
+                },
+                {
+                  "status": "encaminhado",
+                  "type": "done"
+                },
+                {
+                  "status": "qualificado",
+                  "type": "done"
+                },
+                {
+                  "status": "descartado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901311081695",
+          "name": "Gestão de Colaboradores",
+          "lists": [
+            {
+              "id": "901317273970",
+              "name": "Gestão de Equipe",
+              "taskCount": 9,
+              "statuses": [
+                {
+                  "status": "solicitação de documentos",
+                  "type": "open"
+                },
+                {
+                  "status": "exames",
+                  "type": "custom"
+                },
+                {
+                  "status": "contrato",
+                  "type": "custom"
+                },
+                {
+                  "status": "integração",
+                  "type": "custom"
+                },
+                {
+                  "status": "em desligamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "ativo",
+                  "type": "done"
+                },
+                {
+                  "status": "desligado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901326035588",
+              "name": "Terceirados",
+              "taskCount": 6,
+              "statuses": [
+                {
+                  "status": "nova tercerização",
+                  "type": "open"
+                },
+                {
+                  "status": "em validação",
+                  "type": "custom"
+                },
+                {
+                  "status": "validado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901311081709",
+          "name": "Treinamentos",
+          "lists": [
+            {
+              "id": "901317273996",
+              "name": "Integração",
+              "taskCount": 1,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "agendado",
+                  "type": "custom"
+                },
+                {
+                  "status": "em execução",
+                  "type": "custom"
+                },
+                {
+                  "status": "concluído/avaliado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901317274017",
+              "name": "Treinamentos Técnicos Específicos",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "planejado",
+                  "type": "open"
+                },
+                {
+                  "status": "agendado",
+                  "type": "custom"
+                },
+                {
+                  "status": "em execução",
+                  "type": "custom"
+                },
+                {
+                  "status": "concluído/avaliado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901311081776",
+          "name": "Desenvolvimento de Pessoas",
+          "lists": [
+            {
+              "id": "901317274113",
+              "name": "Avaliações de Desempenho",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em avaliação",
+                  "type": "custom"
+                },
+                {
+                  "status": "pdi necessário",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901317274094",
+              "name": "PDIs",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "acompanhamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "concluído",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901317274118",
+              "name": "Pesquisa de Clima",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para analisar",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901317875485",
+          "name": "Reuniões Internas",
+          "lists": [
+            {
+              "id": "901326554081",
+              "name": "Reunião Administrativo",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "agendada",
+                  "type": "open"
+                },
+                {
+                  "status": "realizada",
+                  "type": "custom"
+                },
+                {
+                  "status": "cancelada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901326554232",
+              "name": "Reunião Operacional Holding",
+              "taskCount": 2,
+              "statuses": [
+                {
+                  "status": "agendada",
+                  "type": "open"
+                },
+                {
+                  "status": "realizada",
+                  "type": "custom"
+                },
+                {
+                  "status": "cancelada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901326554277",
+              "name": "Reunião Operacional Jurídico",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "agendada",
+                  "type": "open"
+                },
+                {
+                  "status": "realizada",
+                  "type": "custom"
+                },
+                {
+                  "status": "cancelada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901326554301",
+              "name": "Reunião Comercial",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "agendada",
+                  "type": "open"
+                },
+                {
+                  "status": "realizada",
+                  "type": "custom"
+                },
+                {
+                  "status": "cancelada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901326554339",
+              "name": "Reunião Equipe",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "agendada",
+                  "type": "open"
+                },
+                {
+                  "status": "realizada",
+                  "type": "custom"
+                },
+                {
+                  "status": "cancelada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "folderlessLists": []
+    },
+    {
+      "id": "901312273093",
+      "name": "Jurídico",
+      "archived": false,
+      "folders": [
+        {
+          "id": "901315614511",
+          "name": "Gestão Contratual",
+          "lists": [
+            {
+              "id": "901323272366",
+              "name": "Produção de contratos",
+              "taskCount": 5,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "reunião de alinhamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em elaboração",
+                  "type": "custom"
+                },
+                {
+                  "status": "aprovação do cliente",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901323272434",
+              "name": "Análise contratual",
+              "taskCount": 4,
+              "statuses": [
+                {
+                  "status": "aguardando análise",
+                  "type": "open"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "aguardando&assinatura",
+                  "type": "custom"
+                },
+                {
+                  "status": "em vigor",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901315614729",
+          "name": "Análise de Crédito",
+          "lists": [
+            {
+              "id": "901323272653",
+              "name": "Análise de crédito",
+              "taskCount": 16,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em análise de crédito",
+                  "type": "custom"
+                },
+                {
+                  "status": "parecer enviado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901315615028",
+          "name": "Consultorias",
+          "lists": [
+            {
+              "id": "901323273115",
+              "name": "Controle de parecer",
+              "taskCount": 1,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901323273245",
+              "name": "Gestão de negociações",
+              "taskCount": 2,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901323273333",
+              "name": "Notificações extrajudiciais",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "enviado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901315615256",
+          "name": "Sucesso do Cliente",
+          "lists": [
+            {
+              "id": "901323273455",
+              "name": "Dúvidas",
+              "taskCount": 2,
+              "statuses": [
+                {
+                  "status": "nova dúvida",
+                  "type": "open"
+                },
+                {
+                  "status": "respondido",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901315615297",
+          "name": "Gestão de Processos",
+          "lists": [
+            {
+              "id": "901323273523",
+              "name": "Processos Trabalhistas",
+              "taskCount": 4,
+              "statuses": [
+                {
+                  "status": "nova notificação",
+                  "type": "open"
+                },
+                {
+                  "status": "habilitação",
+                  "type": "custom"
+                },
+                {
+                  "status": "audiência & defesa",
+                  "type": "custom"
+                },
+                {
+                  "status": "manifestação de perícia",
+                  "type": "custom"
+                },
+                {
+                  "status": "audiência de instrução",
+                  "type": "custom"
+                },
+                {
+                  "status": "sentença",
+                  "type": "custom"
+                },
+                {
+                  "status": "recurso",
+                  "type": "custom"
+                },
+                {
+                  "status": "em execução",
+                  "type": "custom"
+                },
+                {
+                  "status": "cálculos",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901323669950",
+              "name": "Processos Cíveis",
+              "taskCount": 4,
+              "statuses": [
+                {
+                  "status": "fase inicial",
+                  "type": "open"
+                },
+                {
+                  "status": "fase instrutória",
+                  "type": "custom"
+                },
+                {
+                  "status": "fase recursal",
+                  "type": "custom"
+                },
+                {
+                  "status": "fase de execução",
+                  "type": "custom"
+                },
+                {
+                  "status": "finalizado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "folderlessLists": []
+    },
+    {
+      "id": "901310076854",
+      "name": "Marketing",
+      "archived": false,
+      "folders": [
+        {
+          "id": "901312792886",
+          "name": "Produção de Conteúdos",
+          "lists": [
+            {
+              "id": "901319473264",
+              "name": "Lives & Palestras",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em preparação",
+                  "type": "custom"
+                },
+                {
+                  "status": "ao vivo",
+                  "type": "custom"
+                },
+                {
+                  "status": "programada",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319270936",
+              "name": "Copywriting",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em aprovação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319271018",
+              "name": "Design",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em aprovação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319336317",
+              "name": "Gravação",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "agendada",
+                  "type": "custom"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319336649",
+              "name": "Edição de Vídeo",
+              "taskCount": 5,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em aprovação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319271037",
+              "name": "Publicação & Agendamento",
+              "taskCount": 4,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "agendado",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319335823",
+              "name": "Disparos",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em preparação",
+                  "type": "custom"
+                },
+                {
+                  "status": "agendado",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901312792906",
+          "name": "Performance & Growth",
+          "lists": [
+            {
+              "id": "901319270961",
+              "name": "Gestão de Campanhas",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "em veiculação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em otimização",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319271108",
+              "name": "Processo de Otimização",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em aprovação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319337333",
+              "name": "Laboratório de Criativos",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para testar",
+                  "type": "open"
+                },
+                {
+                  "status": "em teste",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartado",
+                  "type": "done"
+                },
+                {
+                  "status": "validado",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901312792926",
+          "name": "Webdesign",
+          "lists": [
+            {
+              "id": "901319270986",
+              "name": "Produção de Páginas",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em aprovação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "ativa",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            },
+            {
+              "id": "901319337479",
+              "name": "Atualizações & Otimizações",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em revisão",
+                  "type": "custom"
+                },
+                {
+                  "status": "em aprovação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em alteração",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "901312846353",
+          "name": "Automações",
+          "lists": [
+            {
+              "id": "901319337578",
+              "name": "Gestão de Fluxos",
+              "taskCount": 0,
+              "statuses": [
+                {
+                  "status": "para fazer",
+                  "type": "open"
+                },
+                {
+                  "status": "em andamento",
+                  "type": "custom"
+                },
+                {
+                  "status": "em análise",
+                  "type": "custom"
+                },
+                {
+                  "status": "em veiculação",
+                  "type": "custom"
+                },
+                {
+                  "status": "em otimização",
+                  "type": "custom"
+                },
+                {
+                  "status": "descartada",
+                  "type": "done"
+                },
+                {
+                  "status": "finalizada",
+                  "type": "closed"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "folderlessLists": [
+        {
+          "id": "901325838066",
+          "name": "Legenda e Poste um por dia",
+          "taskCount": 0,
+          "statuses": []
+        }
+      ]
+    }
+  ]
+}
