@@ -13,11 +13,18 @@ import {
 import { fetchMetric } from "@/lib/api";
 import { SERIES } from "@/lib/palette";
 import { EnvelhecimentoData } from "@/lib/types";
+import { ModeloFilter } from "@/components/modelo-filter";
+import { useState } from "react";
 
 export default function EnvelhecimentoPage() {
+  const [modelo, setModelo] = useState<string | null>(null);
   const { data, isLoading, error } = useQuery({
-    queryKey: ["envelhecimento"],
-    queryFn: () => fetchMetric<EnvelhecimentoData>("envelhecimento"),
+    queryKey: ["envelhecimento", modelo],
+    queryFn: () =>
+      fetchMetric<EnvelhecimentoData>(
+        "envelhecimento",
+        modelo ? { modelo } : undefined,
+      ),
   });
 
   return (
@@ -25,6 +32,7 @@ export default function EnvelhecimentoPage() {
       <PageHeader
         title="Prazo & Envelhecimento"
         subtitle="Idade da carteira por faixas de dias (meta: entrega em ~120 dias)"
+        actions={<ModeloFilter value={modelo} onChange={setModelo} />}
       />
       {isLoading && <Loading />}
       {error && <ErrorState />}

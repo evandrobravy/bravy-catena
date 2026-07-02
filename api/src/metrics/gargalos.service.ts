@@ -20,6 +20,11 @@ export class GargalosService {
 
   async get(filter: MetricsFilterDto) {
     const where = clientWhere({ ...filter, macro: undefined });
+    // SLA editável no banco (seed = STAGE_SLA_DIAS via ensureStageDefs)
+    const stageDefs = await this.prisma.stageDef.findMany({
+      select: { id: true, slaDays: true },
+    });
+    const slaPorMarco = new Map(stageDefs.map((s) => [s.id, s.slaDays]));
     const clients = await this.prisma.client.findMany({
       where,
       include: { stages: true },
@@ -96,16 +101,17 @@ export class GargalosService {
     }
 
     const porMarco = [...porMarcoMap.entries()]
-      .map(([id, v]) => ({
-        marco: MARCO_NAME.get(id) ?? String(id),
-        tarefasAbertas: v.count,
-        tempoMedioParadoDias: Math.round(v.somaDias / v.count),
-        slaDias: STAGE_SLA_DIAS[id] ?? null,
-        excedenteMedioDias:
-          STAGE_SLA_DIAS[id] != null
-            ? Math.round(v.somaDias / v.count) - STAGE_SLA_DIAS[id]
-            : null,
-      }))
+      .map(([id, v]) => {
+        const sla = slaPorMarco.get(id) ?? STAGE_SLA_DIAS[id] ?? null;
+        const media = Math.round(v.somaDias / v.count);
+        return {
+          marco: MARCO_NAME.get(id) ?? String(id),
+          tarefasAbertas: v.count,
+          tempoMedioParadoDias: media,
+          slaDias: sla,
+          excedenteMedioDias: sla != null ? media - sla : null,
+        };
+      })
       .sort((a, b) => b.tarefasAbertas - a.tarefasAbertas);
 
     const porEtapa = [...porEtapaMap.values()]
