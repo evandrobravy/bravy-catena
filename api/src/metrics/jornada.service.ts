@@ -12,9 +12,15 @@ export class JornadaService {
 
   async get(filter: MetricsFilterDto) {
     const where = clientWhere({ ...filter, macro: undefined });
-    const clients = await this.prisma.client.findMany({ where });
+    const clients = await this.prisma.client.findMany({
+      where,
+      include: { stages: true },
+    });
     const ativos = clients.filter((c) => ATIVO_STATUSES.includes(c.status));
     const ativoIds = new Set(ativos.map((c) => c.id));
+    const modeloPorCliente = new Map(
+      ativos.map((c) => [c.id, c.modelo ?? '(sem modelo)']),
+    );
 
     // ── visão macro: clientes por marco (01–08) ──
     const porMarco = STAGE_DEFS.map((s) => {
@@ -29,7 +35,16 @@ export class JornadaService {
         porModelo: agrupar(inStage, (c) => c.modelo ?? '(sem modelo)'),
       };
     });
-    const finalizados = ativos.filter((c) => c.currentStage === null).length;
+    // finalizados de verdade: tem etapa com tarefas E todas completas.
+    // Sem nenhuma tarefa vinculada = projeto ainda não estruturado (separado).
+    const temTarefas = (c: (typeof ativos)[number]) =>
+      c.stages.some((s) => s.totalTasks > 0);
+    const tudoCompleto = (c: (typeof ativos)[number]) =>
+      c.stages.every((s) => s.totalTasks === 0 || s.doneTasks === s.totalTasks);
+    const finalizados = ativos.filter(
+      (c) => c.currentStage === null && temTarefas(c) && tudoCompleto(c),
+    ).length;
+    const semTarefasVinculadas = ativos.filter((c) => !temTarefas(c)).length;
 
     // ── etapa = tarefa vinculada: clientes com tarefa aberta por etapa ──
     const abertas = await this.prisma.opTask.findMany({
@@ -59,6 +74,9 @@ export class JornadaService {
         etapa: e.etapa,
         marco: e.marcoId ? MARCO_NAME.get(e.marcoId) ?? null : null,
         clientes: e.clientes.size,
+        porModelo: agrupar([...e.clientes], (id) =>
+          modeloPorCliente.get(id) ?? '(sem modelo)',
+        ),
       }))
       .sort((a, b) => b.clientes - a.clientes);
 
@@ -66,10 +84,12 @@ export class JornadaService {
 
     // ── sem evolução = nenhuma tarefa com mudança de status no período ──
     const buckets = [7, 15, 30, 60, 90];
+    // fallback = dateCreated: cliente sem NENHUMA evolução registrada conta
+    // como parado desde a entrada (dateUpdated mascararia — qualquer edição conta)
     const semEvolucao = buckets.map((d) => ({
       dias: d,
       clientes: ativos.filter(
-        (c) => daysBetween(c.lastEvolutionAt ?? c.dateUpdated) >= d,
+        (c) => daysBetween(c.lastEvolutionAt ?? c.dateCreated) >= d,
       ).length,
     }));
 
@@ -77,6 +97,7 @@ export class JornadaService {
       porMarco,
       porEtapa,
       finalizados,
+      semTarefasVinculadas,
       maiorConcentracao,
       semEvolucao,
       avisos: {

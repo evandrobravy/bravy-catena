@@ -25,31 +25,39 @@ export type Origem = 'cliente' | 'interno' | 'orgao_cartorio';
 
 /**
  * Classificação de cada STATUS operacional por origem do tempo parado.
- * Chave = status em minúsculas. Status não mapeado → 'interno' (default).
+ * Chave = status normalizado (minúsculas, SEM acento). Não mapeado → 'interno'.
  */
 export const STATUS_ORIGEM: Record<string, Origem> = {
   // aguardando o cliente
   'enviado ao cliente': 'cliente',
   solicitado: 'cliente',
-  'aguardando depósito': 'cliente',
-  pendência: 'cliente',
-  'em pendência': 'cliente',
+  'aguardando deposito': 'cliente',
+  pendencia: 'cliente',
+  'em pendencia': 'cliente',
   // órgão / cartório / junta / prefeitura
   'abertura solicitada': 'orgao_cartorio',
-  'recurso em análise': 'orgao_cartorio',
+  'recurso em analise': 'orgao_cartorio',
   // interno (equipe Catena)
   'para fazer': 'interno',
   'em andamento': 'interno',
-  'em revisão': 'interno',
-  'em alteração & ajustes': 'interno',
-  'em análise': 'interno',
+  'em revisao': 'interno',
+  'em alteracao & ajustes': 'interno',
+  'em analise': 'interno',
   'fazer recurso': 'interno',
-  'reunião de apresentação': 'interno',
+  'reuniao de apresentacao': 'interno',
 };
+
+/** minúsculas + sem acentos, pra casar com as chaves de STATUS_ORIGEM. */
+export function normalizeStatus(status: string): string {
+  return status
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '');
+}
 
 export function origemDoStatus(status: string | null | undefined): Origem {
   if (!status) return 'interno';
-  return STATUS_ORIGEM[status.toLowerCase()] ?? 'interno';
+  return STATUS_ORIGEM[normalizeStatus(status)] ?? 'interno';
 }
 
 export const ORIGEM_LABEL: Record<Origem, string> = {

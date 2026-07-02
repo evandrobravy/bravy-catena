@@ -27,13 +27,22 @@ export class OperacoesSyncService {
 
         const prev = await this.prisma.opTask.findUnique({
           where: { clickupId: m.clickupId },
-          select: { id: true, clientId: true, status: true, statusChangedAt: true },
+          select: {
+            id: true,
+            clientId: true,
+            status: true,
+            statusChangedAt: true,
+            listId: true,
+            listName: true,
+          },
         });
 
         const statusChanged = prev && prev.status !== null && prev.status !== m.status;
+        // não inventar statusChangedAt: sem mudança observada, preserva o valor
+        // real (backfill via op_task_events) em vez de assumir dateUpdated
         const statusChangedAt = statusChanged
           ? m.dateUpdated ?? new Date()
-          : prev?.statusChangedAt ?? m.dateUpdated ?? null;
+          : prev?.statusChangedAt ?? null;
 
         await this.prisma.opTask.upsert({
           where: { clickupId: m.clickupId },
@@ -64,22 +73,39 @@ export class OperacoesSyncService {
             statusChangedAt,
             startDate: m.startDate,
             dueDate: m.dueDate,
-            dateDone: m.dateDone,
+            // não sobrescrever dateDone real (backfill) com null do ClickUp
+            dateDone: m.dateDone ?? undefined,
             dateUpdated: m.dateUpdated,
           },
         });
 
-        // diffing: mudança de status -> StatusEvent (só se linkado a um cliente)
-        if (statusChanged && prev?.clientId) {
-          await this.prisma.statusEvent.create({
-            data: {
-              clientId: prev.clientId,
-              entity: 'opTask',
-              refId: m.clickupId,
-              fromStatus: prev.status,
-              toStatus: m.status ?? '',
-              changedAt: statusChangedAt ?? new Date(),
-            },
+        // diffing -> op_task_events (mesma tabela do backfill; chave única torna idempotente)
+        if (statusChanged) {
+          await this.prisma.opTaskEvent.createMany({
+            data: [
+              {
+                opTaskClickupId: m.clickupId,
+                kind: 'status',
+                fromValue: prev.status,
+                toValue: m.status ?? '',
+                changedAt: statusChangedAt ?? new Date(),
+              },
+            ],
+            skipDuplicates: true,
+          });
+        }
+        if (prev && prev.listId && m.listId && prev.listId !== m.listId) {
+          await this.prisma.opTaskEvent.createMany({
+            data: [
+              {
+                opTaskClickupId: m.clickupId,
+                kind: 'list',
+                fromValue: prev.listName,
+                toValue: m.listName ?? '',
+                changedAt: m.dateUpdated ?? new Date(),
+              },
+            ],
+            skipDuplicates: true,
           });
         }
         count += 1;
@@ -90,19 +116,21 @@ export class OperacoesSyncService {
     return count;
   }
 
-  /** Client.lastEvolutionAt = máx. mudança de status entre as op tasks do cliente. */
+  /**
+   * Client.lastEvolutionAt = máx. mudança de status REAL (op_task_events) entre
+   * as tasks do cliente. Nunca seta null — preserva o backfill quando não há evento.
+   */
   private async recomputeLastEvolution() {
-    const rows = await this.prisma.opTask.groupBy({
-      by: ['clientId'],
-      where: { clientId: { not: null } },
-      _max: { statusChangedAt: true },
-    });
-    for (const r of rows) {
-      if (!r.clientId) continue;
-      await this.prisma.client.update({
-        where: { id: r.clientId },
-        data: { lastEvolutionAt: r._max.statusChangedAt },
-      });
-    }
+    await this.prisma.$executeRaw`
+      UPDATE clients c SET "lastEvolutionAt" = e.max_at
+      FROM (
+        SELECT t."clientId", max(ev."changedAt") AS max_at
+        FROM op_task_events ev
+        JOIN op_tasks t ON t."clickupId" = ev."opTaskClickupId"
+        WHERE ev.kind = 'status' AND t."clientId" IS NOT NULL
+        GROUP BY t."clientId"
+      ) e
+      WHERE c.id = e."clientId"
+        AND c."lastEvolutionAt" IS DISTINCT FROM e.max_at`;
   }
 }
