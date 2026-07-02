@@ -20,7 +20,6 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      - SERVICE_FQDN_API_3001=https://catena-api.bravy.com.br
       - DATABASE_URL=postgresql://catena:${POSTGRES_PASSWORD}@postgres:5432/catena?schema=public
       - CLICKUP_API_KEY=${CLICKUP_API_KEY}
       - CLICKUP_WORKSPACE_ID=${CLICKUP_WORKSPACE_ID}
@@ -40,6 +39,19 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.routers.catena-api-http.rule=Host(`catena-api.bravy.com.br`)
+      - traefik.http.routers.catena-api-http.entryPoints=http
+      - traefik.http.routers.catena-api-http.middlewares=redirect-to-https
+      - traefik.http.routers.catena-api-http.service=catena-api
+      - traefik.http.routers.catena-api-https.rule=Host(`catena-api.bravy.com.br`)
+      - traefik.http.routers.catena-api-https.entryPoints=https
+      - traefik.http.routers.catena-api-https.tls=true
+      - traefik.http.routers.catena-api-https.tls.certresolver=letsencrypt
+      - traefik.http.routers.catena-api-https.service=catena-api
+      - traefik.http.services.catena-api.loadbalancer.server.port=3001
 
   web:
     build:
@@ -48,10 +60,20 @@ services:
       args:
         - NEXT_PUBLIC_API_URL=https://catena-api.bravy.com.br/api
     restart: unless-stopped
-    environment:
-      - SERVICE_FQDN_WEB_3000=https://catena.bravy.com.br
     depends_on:
       - api
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.catena-web-http.rule=Host(`catena.bravy.com.br`)
+      - traefik.http.routers.catena-web-http.entryPoints=http
+      - traefik.http.routers.catena-web-http.middlewares=redirect-to-https
+      - traefik.http.routers.catena-web-http.service=catena-web
+      - traefik.http.routers.catena-web-https.rule=Host(`catena.bravy.com.br`)
+      - traefik.http.routers.catena-web-https.entryPoints=https
+      - traefik.http.routers.catena-web-https.tls=true
+      - traefik.http.routers.catena-web-https.tls.certresolver=letsencrypt
+      - traefik.http.routers.catena-web-https.service=catena-web
+      - traefik.http.services.catena-web.loadbalancer.server.port=3000
 
 volumes:
   catena_pgdata:
