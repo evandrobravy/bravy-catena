@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* superfícies (zinc) — light */
+  --page: #ffffff;
+  --surface: #fafafa;
+  --surface-2: #f4f4f5;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --text-primary: #09090b;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
+  --grid: #e4e4e7;
+
+  /* acentos base */
+  --good: #10b981;
+  --warning: #f59e0b;
+  --serious: #f97316;
+  --critical: #ef4444;
+
+  /* categóricas (light) */
+  --series-1: #2a78d6; /* azul */
+  --series-2: #10b981; /* verde */
+  --series-3: #f59e0b; /* âmbar */
+  --series-4: #22c55e; /* verde claro */
+  --series-5: #8b5cf6; /* violeta */
+  --series-6: #ef4444; /* vermelho */
+  --series-7: #ec4899; /* magenta */
+  --series-8: #f97316; /* laranja */
+}
+
+.dark {
+  --page: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #161616;
+  --border: #1f1f1f;
+  --border-strong: #2a2a2a;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  --grid: #1f1f1f;
+
+  --good: #34d399;
+  --warning: #fbbf24;
+  --serious: #fb923c;
+  --critical: #f87171;
+
+  --series-1: #60a5fa;
+  --series-2: #34d399;
+  --series-3: #fbbf24;
+  --series-4: #4ade80;
+  --series-5: #a78bfa;
+  --series-6: #f87171;
+  --series-7: #f472b6;
+  --series-8: #fb923c;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ink: var(--text-primary);
+  --color-ink-secondary: var(--text-secondary);
+  --color-ink-muted: var(--text-muted);
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--page);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fade-in-up 0.35s ease-out;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
