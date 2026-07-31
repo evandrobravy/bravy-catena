@@ -1,49 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Lead } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { MetricsFilterDto } from './dto/filters.dto';
+import { leadsComEstagio } from './populations';
 
 @Injectable()
 export class ComercialService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private async leads(filter: MetricsFilterDto): Promise<Lead[]> {
-    return this.prisma.lead.findMany({
-      where: {
-        ...(filter.seminario ? { seminario: filter.seminario } : {}),
-        ...(filter.closer ? { closer: filter.closer } : {}),
-      },
+  private leads(filter: MetricsFilterDto) {
+    return leadsComEstagio(this.prisma, {
+      seminario: filter.seminario,
+      closer: filter.closer,
     });
-  }
-
-  /**
-   * Estágio máximo atingido pelo lead no funil (SV=1, Projeto=2, Holding=3),
-   * combinando Lead.produtoVendido com os Deals vinculados (complemento quando
-   * o campo do lead está vazio no ClickUp).
-   */
-  private async estagioPorLead(leads: Lead[]): Promise<Map<string, number>> {
-    const NIVEL: Record<string, number> = { SV: 1, Projeto: 2, Holding: 3 };
-    const map = new Map<string, number>();
-    for (const l of leads) {
-      const n = l.produtoVendido ? NIVEL[l.produtoVendido] ?? 0 : 0;
-      if (n) map.set(l.clickupId, n);
-    }
-    const deals = await this.prisma.deal.findMany({
-      where: { leadClickupId: { not: null } },
-      select: { leadClickupId: true, tipo: true },
-    });
-    for (const d of deals) {
-      const n = NIVEL[d.tipo] ?? 0;
-      if (!d.leadClickupId || !n) continue;
-      map.set(d.leadClickupId, Math.max(map.get(d.leadClickupId) ?? 0, n));
-    }
-    return map;
   }
 
   /** Dashboard Comercial por Seminário. */
   async seminario(filter: MetricsFilterDto) {
     const leads = await this.leads(filter);
-    const estagio = await this.estagioPorLead(leads);
     const seminarios = [
       ...new Set(leads.map((l) => l.seminario ?? '(sem seminário)')),
     ];
@@ -53,9 +26,9 @@ export class ComercialService {
       const agendamentos = grp.filter((l) => l.agendamento !== null).length;
       const reunioes = grp.filter((l) => l.realizada !== null).length;
       // funil cumulativo: quem chegou PELO MENOS até o estágio
-      const atingiuSV = grp.filter((l) => (estagio.get(l.clickupId) ?? 0) >= 1);
-      const atingiuProjeto = grp.filter((l) => (estagio.get(l.clickupId) ?? 0) >= 2);
-      const atingiuHolding = grp.filter((l) => (estagio.get(l.clickupId) ?? 0) >= 3);
+      const atingiuSV = grp.filter((l) => l.estagio >= 1);
+      const atingiuProjeto = grp.filter((l) => l.estagio >= 2);
+      const atingiuHolding = grp.filter((l) => l.estagio >= 3);
       return {
         seminario: s,
         leads: grp.length,

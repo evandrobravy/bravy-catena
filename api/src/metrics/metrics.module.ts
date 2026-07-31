@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ComercialService } from './comercial.service';
+import { DrillService } from './drill.service';
 import { EnvelhecimentoService } from './envelhecimento.service';
+import { EstrategicoService } from './estrategico.service';
 import { ExecutivoService } from './executivo.service';
 import { GargalosService } from './gargalos.service';
 import { JornadaService } from './jornada.service';
@@ -18,6 +20,8 @@ import { ResponsaveisService } from './responsaveis.service';
     ComercialService,
     GargalosService,
     ResponsaveisService,
+    EstrategicoService,
+    DrillService,
   ],
 })
 export class MetricsModule {}

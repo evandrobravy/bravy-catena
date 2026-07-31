@@ -31,6 +31,10 @@ services:
       - CLICKUP_SPACE_OPERACOES=90137977918
       - PORT=3001
       - SYNC_TOKEN=${SYNC_TOKEN}
+      - GHL_PRIVATE_TOKEN=${GHL_PRIVATE_TOKEN}
+      - GHL_LOCATION_ID=${GHL_LOCATION_ID}
+      - GHL_API_VERSION=${GHL_API_VERSION}
+      - GHL_WEBHOOK_TOKEN=${GHL_WEBHOOK_TOKEN}
     depends_on:
       postgres:
         condition: service_healthy

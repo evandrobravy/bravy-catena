@@ -51,6 +51,8 @@ export interface EnvelhecimentoData {
     tempoMedioDias: number;
   }[];
   tempoMedioDias: number;
+  baseDados: { clienteMaisAntigoEm: string | null; idadeMaximaDias: number };
+  avisos: { origem: string };
 }
 
 export interface ProgressoData {
@@ -151,9 +153,31 @@ export interface ResponsaveisData {
     abertas: number;
     concluidas: number;
     clientes: number;
+    clientesEmAtraso: number;
+    clientesSemEvolucao: number;
+    pctNoPrazo: number;
     tempoMedioParadoDias: number;
     pctConcluidas: number;
   }[];
   semResponsavel: number;
-  avisos: { dados: string };
+  semEvolucaoDias: number;
+  avisos: { dados: string; atraso: string };
+}
+
+export interface EstrategicoData {
+  patrimonioProtegido: number;
+  patrimonioOrganizado: number;
+  familiasAtendidas: number;
+  familiasNaCarteira: number;
+  patrimonioMedioPorFamilia: number;
+  porModelo: {
+    modelo: string;
+    familias: number;
+    patrimonio: number;
+    patrimonioProtegido: number;
+    comValor: number;
+  }[];
+  cobertura: { holdings: number; comValorInformado: number; pct: number };
+  indisponiveis: string[];
+  avisos: { dados: string; indisponiveis: string };
 }

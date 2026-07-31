@@ -1,7 +1,7 @@
 export interface NavItem {
   href: string;
   label: string;
-  group: "Operação" | "Comercial";
+  group: "Operação" | "Comercial" | "Estratégico";
   phase?: 2 | 3;
 }
 
@@ -15,4 +15,5 @@ export const NAV: NavItem[] = [
   { href: "/comercial", label: "Comercial por Seminário", group: "Comercial" },
   { href: "/closer", label: "Closer", group: "Comercial" },
   { href: "/reunioes", label: "Reuniões Comerciais", group: "Comercial" },
+  { href: "/estrategico", label: "Estratégico Catena", group: "Estratégico" },
 ];

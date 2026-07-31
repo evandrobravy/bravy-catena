@@ -15,9 +15,11 @@ import {
 import { CHART_AXIS_STYLE, CHART_GRID, CHART_TOOLTIP_STYLE } from "@/lib/chart-theme";
 import { SERIES } from "@/lib/palette";
 
-interface Datum {
+export interface Datum {
   label: string;
   value: number;
+  /** chave da fatia pro drill (etapa, marcoId, faixa, origem...) */
+  meta?: Record<string, string | number | undefined>;
 }
 
 export function BarChartCard({
@@ -26,16 +28,24 @@ export function BarChartCard({
   horizontal = false,
   height = 260,
   multicolor = false,
+  onItemClick,
 }: {
   data: Datum[];
   color?: string;
   horizontal?: boolean;
   height?: number;
   multicolor?: boolean;
+  onItemClick?: (d: Datum) => void;
 }) {
   const cells = multicolor
     ? data.map((_, i) => <Cell key={i} fill={SERIES[i % SERIES.length]} />)
     : null;
+  const handleClick = onItemClick
+    ? (entry: { payload?: Datum }) => {
+        if (entry?.payload) onItemClick(entry.payload);
+      }
+    : undefined;
+  const barCursor = onItemClick ? "pointer" : undefined;
 
   if (horizontal) {
     return (
@@ -62,7 +72,14 @@ export function BarChartCard({
             axisLine={false}
           />
           <Tooltip contentStyle={CHART_TOOLTIP_STYLE} cursor={{ fill: CHART_GRID, opacity: 0.4 }} />
-          <Bar dataKey="value" fill={color} radius={[0, 4, 4, 0]} barSize={16}>
+          <Bar
+            dataKey="value"
+            fill={color}
+            radius={[0, 4, 4, 0]}
+            barSize={16}
+            onClick={handleClick}
+            cursor={barCursor}
+          >
             {cells}
           </Bar>
         </BarChart>
@@ -88,7 +105,14 @@ export function BarChartCard({
           width={40}
         />
         <Tooltip contentStyle={CHART_TOOLTIP_STYLE} cursor={{ fill: CHART_GRID, opacity: 0.4 }} />
-        <Bar dataKey="value" fill={color} radius={[6, 6, 0, 0]} barSize={40}>
+        <Bar
+          dataKey="value"
+          fill={color}
+          radius={[6, 6, 0, 0]}
+          barSize={40}
+          onClick={handleClick}
+          cursor={barCursor}
+        >
           {cells}
         </Bar>
       </BarChart>
@@ -99,9 +123,11 @@ export function BarChartCard({
 export function DonutChartCard({
   data,
   height = 260,
+  onItemClick,
 }: {
   data: Datum[];
   height?: number;
+  onItemClick?: (d: Datum) => void;
 }) {
   const total = data.reduce((s, d) => s + d.value, 0);
   return (
@@ -117,6 +143,14 @@ export function DonutChartCard({
             paddingAngle={2}
             stroke="var(--surface)"
             strokeWidth={2}
+            onClick={
+              onItemClick
+                ? (entry: { payload?: Datum }) => {
+                    if (entry?.payload) onItemClick(entry.payload);
+                  }
+                : undefined
+            }
+            cursor={onItemClick ? "pointer" : undefined}
           >
             {data.map((_, i) => (
               <Cell key={i} fill={SERIES[i % SERIES.length]} />
@@ -127,7 +161,14 @@ export function DonutChartCard({
       </ResponsiveContainer>
       <ul className="flex-1 space-y-2">
         {data.map((d, i) => (
-          <li key={d.label} className="flex items-center gap-2 text-sm">
+          <li
+            key={d.label}
+            className={
+              "flex items-center gap-2 text-sm" +
+              (onItemClick ? " cursor-pointer hover:opacity-75" : "")
+            }
+            onClick={onItemClick ? () => onItemClick(d) : undefined}
+          >
             <span
               className="inline-block h-2.5 w-2.5 rounded-sm"
               style={{ background: SERIES[i % SERIES.length] }}

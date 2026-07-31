@@ -4,18 +4,17 @@ import { PrismaService } from '../prisma/prisma.service';
 import { MetricsFilterDto } from './dto/filters.dto';
 import {
   ATIVO_STATUSES,
-  clientWhere,
   daysBetween,
   PARALISADO_STATUSES,
 } from './metrics.helpers';
+import { clientes, conclusaoPorCliente } from './populations';
 
 @Injectable()
 export class ExecutivoService {
   constructor(private readonly prisma: PrismaService) {}
 
   async get(filter: MetricsFilterDto) {
-    const base = clientWhere({ ...filter, macro: undefined });
-    const clients = await this.prisma.client.findMany({ where: base });
+    const clients = await clientes(this.prisma, filter.modelo);
 
     const ativos = clients.filter((c) => ATIVO_STATUSES.includes(c.status));
     const concluidos = clients.filter((c) => c.status === 'finalizado');
@@ -53,17 +52,10 @@ export class ExecutivoService {
     const clientesComDueDate = ativos.filter((c) => c.dueDate !== null).length;
 
     // tempo médio dos concluídos (início → conclusão real via dateDone das tasks)
-    const conclusoes = await this.prisma.opTask.groupBy({
-      by: ['clientId'],
-      where: { clientId: { not: null }, dateDone: { not: null } },
-      _max: { dateDone: true },
-    });
-    const conclusaoPorCliente = new Map(
-      conclusoes.map((r) => [r.clientId, r._max.dateDone]),
-    );
+    const conclusaoMap = await conclusaoPorCliente(this.prisma);
     const duracoesConcluidos = concluidos
       .map((c) => {
-        const fim = conclusaoPorCliente.get(c.id) ?? c.dateUpdated;
+        const fim = conclusaoMap.get(c.id) ?? c.dateUpdated;
         return fim ? daysBetween(c.dateCreated, fim) : null;
       })
       .filter((d): d is number => d !== null && d >= 0);

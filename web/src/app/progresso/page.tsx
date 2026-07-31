@@ -14,10 +14,13 @@ import { fetchMetric } from "@/lib/api";
 import { SERIES } from "@/lib/palette";
 import { ProgressoData } from "@/lib/types";
 import { ModeloFilter } from "@/components/modelo-filter";
+import { useDrill } from "@/components/drill-drawer";
 import { useState } from "react";
 
 export default function ProgressoPage() {
   const [modelo, setModelo] = useState<string | null>(null);
+  const { openDrill } = useDrill();
+  const base = modelo ? { modelo } : {};
   const { data, isLoading, error } = useQuery({
     queryKey: ["progresso", modelo],
     queryFn: () =>
@@ -42,6 +45,14 @@ export default function ProgressoPage() {
                 label={`Progresso ${f.faixa}%`}
                 value={f.clientes}
                 accent={(["red", "orange", "amber", "green"] as const)[i]}
+                onClick={() =>
+                  openDrill({
+                    key: "progresso.faixa",
+                    params: { ...base, faixa: f.faixa },
+                    titulo: `Progresso ${f.faixa}%`,
+                    diasLabel: "Dias na carteira",
+                  })
+                }
               />
             ))}
           </div>
@@ -49,9 +60,21 @@ export default function ProgressoPage() {
             <Card>
               <ChartTitle>Clientes por faixa de progresso</ChartTitle>
               <BarChartCard
-                data={data.faixas.map((f) => ({ label: `${f.faixa}%`, value: f.clientes }))}
+                data={data.faixas.map((f) => ({
+                  label: `${f.faixa}%`,
+                  value: f.clientes,
+                  meta: { faixa: f.faixa },
+                }))}
                 multicolor
                 height={240}
+                onItemClick={(d) =>
+                  openDrill({
+                    key: "progresso.faixa",
+                    params: { ...base, faixa: d.meta?.faixa },
+                    titulo: `Progresso ${d.label}`,
+                    diasLabel: "Dias na carteira",
+                  })
+                }
               />
             </Card>
             <Card>
@@ -63,6 +86,14 @@ export default function ProgressoPage() {
                 }))}
                 color={SERIES[1]}
                 height={240}
+                onItemClick={(d) =>
+                  openDrill({
+                    key: "progresso.modelo",
+                    params: { modelo: d.label },
+                    titulo: `Clientes — ${d.label}`,
+                    diasLabel: "Dias na carteira",
+                  })
+                }
               />
             </Card>
           </div>

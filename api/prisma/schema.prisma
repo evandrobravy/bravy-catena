@@ -21,6 +21,7 @@ model Client {
   progresso    Float? // automatic_progress (0-100)
   contador     String? // Interno | Externo
   patrimonio   Decimal? @db.Decimal(14, 2) // Patrimônio DIRPF
+  patrimonioMercado Decimal? @db.Decimal(14, 2) // Patrimônio VLR Mercado
   currentStage Int? // etapa ativa derivada (última sem completedAt)
   dueDate      DateTime? // vencimento do projeto
   responsavel  String? // assignee da holding (secundário; ~sempre Jordana)
@@ -151,7 +152,9 @@ model ClientSnapshot {
 
 model Lead {
   id             String    @id @default(cuid())
-  clickupId      String    @unique
+  clickupId      String?   @unique
+  ghlContactId   String?   @unique
+  fonte          String    @default("clickup") // "clickup" | "ghl"
   name           String
   status         String // oportunidade ... negócio fechado
   seminario      String? // Seminário de Origem (01/02)
@@ -165,6 +168,7 @@ model Lead {
   @@index([seminario])
   @@index([closer])
   @@index([status])
+  @@index([fonte])
   @@map("leads")
 }
 

@@ -24,6 +24,9 @@ export class SyncController {
     if (expected && token !== expected) {
       throw new ForbiddenException('token inválido');
     }
+    if (kind === 'ghl_backfill') {
+      return this.sync.runGhlBackfill();
+    }
     const k = kind === 'incremental' ? 'incremental' : 'full';
     return this.sync.run(k);
   }

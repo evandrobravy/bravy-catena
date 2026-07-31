@@ -10,12 +10,15 @@ import {
   KpiCard,
   Loading,
   PageHeader,
+  SortableTable,
 } from "@/components/ui";
 import { fetchMetric } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
 import { CloserData } from "@/lib/types";
+import { useDrill } from "@/components/drill-drawer";
 
 export default function CloserPage() {
+  const { openDrill } = useDrill();
   const { data, isLoading, error } = useQuery({
     queryKey: ["closer"],
     queryFn: () => fetchMetric<CloserData>("closer"),
@@ -37,10 +40,46 @@ export default function CloserPage() {
       {data && (
         <div className="space-y-5">
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <KpiCard label="Reuniões" value={reunioes} accent="blue" icon={Handshake} />
-            <KpiCard label="Fechamentos" value={fechamentos} accent="green" icon={Trophy} />
-            <KpiCard label="Taxa de fechamento" value={taxa} suffix="%" accent="amber" icon={Target} />
-            <KpiCard label="Faturamento" value={formatCurrency(faturamento)} accent="emerald" icon={DollarSign} />
+            <KpiCard
+              label="Reuniões"
+              value={reunioes}
+              accent="blue"
+              icon={Handshake}
+              onClick={() =>
+                openDrill({ key: "closer.reunioes", titulo: "Reuniões realizadas" })
+              }
+            />
+            <KpiCard
+              label="Fechamentos"
+              value={fechamentos}
+              accent="green"
+              icon={Trophy}
+              onClick={() =>
+                openDrill({ key: "closer.fechamentos", titulo: "Fechamentos" })
+              }
+            />
+            <KpiCard
+              label="Taxa de fechamento"
+              value={taxa}
+              suffix="%"
+              accent="amber"
+              icon={Target}
+              onClick={() =>
+                openDrill({
+                  key: "reunioes.com-fechamento",
+                  titulo: "Reuniões com fechamento",
+                })
+              }
+            />
+            <KpiCard
+              label="Faturamento"
+              value={formatCurrency(faturamento)}
+              accent="emerald"
+              icon={DollarSign}
+              onClick={() =>
+                openDrill({ key: "closer.faturamento", titulo: "Leads com valor" })
+              }
+            />
           </div>
 
           <Card>
@@ -53,43 +92,59 @@ export default function CloserPage() {
               horizontal
               multicolor
               height={200}
+              onItemClick={(d) =>
+                openDrill({
+                  key: "closer.faturamento",
+                  params: { closer: d.label },
+                  titulo: `Faturamento — ${d.label}`,
+                })
+              }
             />
           </Card>
 
           <Card className="overflow-x-auto p-0">
-            <div className="p-5 pb-0">
+            <div className="p-5 pb-1">
               <ChartTitle>Desempenho por closer</ChartTitle>
+              <p className="-mt-2 mb-3 text-xs text-[var(--text-muted)]">
+                Clique em qualquer coluna para reordenar (volume, conversão,
+                ticket).
+              </p>
             </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-[11px] uppercase tracking-[0.1em] text-[var(--text-muted)]">
-                  <th className="px-5 py-2 font-medium">Closer</th>
-                  <th className="px-5 py-2 font-medium">Reuniões</th>
-                  <th className="px-5 py-2 font-medium">Fechamentos</th>
-                  <th className="px-5 py-2 font-medium">Taxa</th>
-                  <th className="px-5 py-2 font-medium">SV</th>
-                  <th className="px-5 py-2 font-medium">Projetos</th>
-                  <th className="px-5 py-2 font-medium">Holdings</th>
-                  <th className="px-5 py-2 font-medium">Faturamento</th>
-                  <th className="px-5 py-2 font-medium">Ticket médio</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.porCloser.map((c) => (
-                  <tr key={c.closer} className="border-t">
-                    <td className="px-5 py-3 font-medium">{c.closer}</td>
-                    <td className="px-5 py-3 tabular-nums">{c.reunioes}</td>
-                    <td className="px-5 py-3 tabular-nums">{c.fechamentos}</td>
-                    <td className="px-5 py-3 tabular-nums">{c.taxaFechamento}%</td>
-                    <td className="px-5 py-3 tabular-nums">{c.sv}</td>
-                    <td className="px-5 py-3 tabular-nums">{c.projetos}</td>
-                    <td className="px-5 py-3 tabular-nums">{c.holdings}</td>
-                    <td className="px-5 py-3 tabular-nums">{formatCurrency(c.faturamento)}</td>
-                    <td className="px-5 py-3 tabular-nums">{formatCurrency(c.ticketMedio)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <SortableTable
+              rows={data.porCloser}
+              rowKey={(c) => c.closer}
+              initialSort="faturamento"
+              onRowClick={(c) =>
+                openDrill({
+                  key: "closer.leads",
+                  params: { closer: c.closer },
+                  titulo: `Leads — ${c.closer}`,
+                })
+              }
+              columns={[
+                { key: "closer", label: "Closer", text: true },
+                { key: "reunioes", label: "Reuniões" },
+                { key: "fechamentos", label: "Fechamentos" },
+                {
+                  key: "taxaFechamento",
+                  label: "Taxa",
+                  render: (c) => `${c.taxaFechamento}%`,
+                },
+                { key: "sv", label: "SV" },
+                { key: "projetos", label: "Projetos" },
+                { key: "holdings", label: "Holdings" },
+                {
+                  key: "faturamento",
+                  label: "Faturamento",
+                  render: (c) => formatCurrency(c.faturamento),
+                },
+                {
+                  key: "ticketMedio",
+                  label: "Ticket médio",
+                  render: (c) => formatCurrency(c.ticketMedio),
+                },
+              ]}
+            />
           </Card>
         </div>
       )}

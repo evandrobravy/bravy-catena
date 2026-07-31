@@ -24,6 +24,7 @@ export interface MappedClient {
   progresso: number | null;
   contador: string | null;
   patrimonio: number | null;
+  patrimonioMercado: number | null;
   currentStage: number | null;
   dueDate: Date | null;
   dateCreated: Date;
@@ -61,6 +62,7 @@ export function mapHolding(task: ClickUpTask): MappedClient {
     progresso: cfProgress(task, 'Progresso'),
     contador: cfDropdown(task, 'Contador'),
     patrimonio: cfNumber(task, 'Patrimônio DIRPF'),
+    patrimonioMercado: cfNumber(task, 'Patrimônio VLR Mercado'),
     currentStage,
     dueDate: epochToDate(task.due_date),
     dateCreated: epochToDate(task.date_created) ?? new Date(),

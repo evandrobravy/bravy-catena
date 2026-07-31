@@ -49,6 +49,17 @@ Credenciais em `api/.env` (token ClickUp, IDs das lists, DATABASE_URL, SYNC_TOKE
 | Gargalos | — | **Fase 2/3** (placeholder) |
 | Responsáveis | — | **Fase 2** (placeholder) |
 
+## Drill-down
+
+Todo card/barra/donut/linha é clicável → painel lateral com a lista dos itens por trás do
+número (tarefas/clientes/leads/passagens), com busca, ordenação, export CSV, link pra task
+no ClickUp e drill aninhado (cliente → suas tarefas abertas).
+
+- Backend: `GET /api/metrics/drill/:key` — resolvers finos sobre `api/src/metrics/populations.ts`
+  (camada única de populações que os cards TAMBÉM usam → paridade por construção).
+- Paridade verificada por `node api/scripts/verify-drill-parity.mjs` (361 checks card↔drill,
+  com e sem filtro de modelo). Rodar sempre que mexer em métrica.
+
 ## Pendências / próximas fases
 
 - **Fase 2 (histórico):** tabela `StatusEvent` (diffing + backfill via activity endpoint) e `ClientSnapshot` nightly → "sem evolução" real, Gargalos, Responsáveis, login JWT.

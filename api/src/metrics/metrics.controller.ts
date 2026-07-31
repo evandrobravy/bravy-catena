@@ -1,7 +1,10 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ComercialService } from './comercial.service';
+import { DrillService } from './drill.service';
+import { DrillQueryDto } from './dto/drill.dto';
 import { MetricsFilterDto } from './dto/filters.dto';
 import { EnvelhecimentoService } from './envelhecimento.service';
+import { EstrategicoService } from './estrategico.service';
 import { ExecutivoService } from './executivo.service';
 import { GargalosService } from './gargalos.service';
 import { JornadaService } from './jornada.service';
@@ -18,7 +21,15 @@ export class MetricsController {
     private readonly comercial: ComercialService,
     private readonly gargalos: GargalosService,
     private readonly responsaveis: ResponsaveisService,
+    private readonly estrategico: EstrategicoService,
+    private readonly drill: DrillService,
   ) {}
+
+  /** Drill-down: lista dos itens por trás de qualquer card. */
+  @Get('drill/:key')
+  getDrill(@Param('key') key: string, @Query() f: DrillQueryDto) {
+    return this.drill.get(key, f);
+  }
 
   @Get('executivo')
   getExecutivo(@Query() f: MetricsFilterDto) {
@@ -63,5 +74,10 @@ export class MetricsController {
   @Get('responsaveis')
   getResponsaveis(@Query() f: MetricsFilterDto) {
     return this.responsaveis.get(f);
+  }
+
+  @Get('estrategico')
+  getEstrategico(@Query() f: MetricsFilterDto) {
+    return this.estrategico.get(f);
   }
 }

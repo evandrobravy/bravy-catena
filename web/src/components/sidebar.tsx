@@ -4,6 +4,7 @@ import {
   BarChart3,
   Clock,
   Gauge,
+  Landmark,
   LayoutDashboard,
   PanelLeftClose,
   PanelLeftOpen,
@@ -29,13 +30,14 @@ const ICONS: Record<string, typeof Gauge> = {
   "/comercial": BarChart3,
   "/closer": Trophy,
   "/reunioes": Video,
+  "/estrategico": Landmark,
 };
 
 const STORAGE_KEY = "sidebar-collapsed";
 
 export function Sidebar() {
   const pathname = usePathname();
-  const groups = ["Operação", "Comercial"] as const;
+  const groups = ["Operação", "Comercial", "Estratégico"] as const;
   const [collapsed, setCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
 

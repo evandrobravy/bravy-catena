@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { STAGE_DEFS } from '../clickup/clickup.constants';
 import { PrismaService } from '../prisma/prisma.service';
 import { MetricsFilterDto } from './dto/filters.dto';
-import { ATIVO_STATUSES, clientWhere, daysBetween } from './metrics.helpers';
+import { daysBetween } from './metrics.helpers';
+import { clientesAtivos, tasksDosClientes } from './populations';
 
 const MARCO_NAME = new Map(STAGE_DEFS.map((s) => [s.id, `${s.code}. ${s.name}`]));
 
@@ -11,12 +12,7 @@ export class JornadaService {
   constructor(private readonly prisma: PrismaService) {}
 
   async get(filter: MetricsFilterDto) {
-    const where = clientWhere({ ...filter, macro: undefined });
-    const clients = await this.prisma.client.findMany({
-      where,
-      include: { stages: true },
-    });
-    const ativos = clients.filter((c) => ATIVO_STATUSES.includes(c.status));
+    const ativos = await clientesAtivos(this.prisma, filter.modelo);
     const ativoIds = new Set(ativos.map((c) => c.id));
     const modeloPorCliente = new Map(
       ativos.map((c) => [c.id, c.modelo ?? '(sem modelo)']),
@@ -47,15 +43,8 @@ export class JornadaService {
     const semTarefasVinculadas = ativos.filter((c) => !temTarefas(c)).length;
 
     // ── etapa = tarefa vinculada: clientes com tarefa aberta por etapa ──
-    const abertas = await this.prisma.opTask.findMany({
-      where: {
-        clientId: { not: null },
-        status: { not: null },
-        done: false,
-        etapa: { not: null },
-      },
-      select: { clientId: true, etapa: true, stageDefId: true },
-    });
+    const tasks = await tasksDosClientes(this.prisma, [...ativoIds]);
+    const abertas = tasks.filter((t) => !t.done && t.etapa !== null);
     const porEtapaMap = new Map<
       string,
       { etapa: string; marcoId: number | null; clientes: Set<string> }

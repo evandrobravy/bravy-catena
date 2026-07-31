@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { MetricsFilterDto } from './dto/filters.dto';
-import {
-  ATIVO_STATUSES,
-  clientWhere,
-  progressoBucket,
-} from './metrics.helpers';
+import { progressoBucket } from './metrics.helpers';
+import { clientesAtivos } from './populations';
 
 const BUCKETS = ['<25', '26-50', '51-75', '>75'];
 
@@ -14,9 +11,7 @@ export class ProgressoService {
   constructor(private readonly prisma: PrismaService) {}
 
   async get(filter: MetricsFilterDto) {
-    const where = clientWhere({ ...filter, macro: undefined });
-    const clients = await this.prisma.client.findMany({ where });
-    const ativos = clients.filter((c) => ATIVO_STATUSES.includes(c.status));
+    const ativos = await clientesAtivos(this.prisma, filter.modelo);
 
     const faixas = BUCKETS.map((b) => ({
       faixa: b,

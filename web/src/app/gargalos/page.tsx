@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   Building2,
-  Clock,
   DoorOpen,
   Hourglass,
   Layers,
@@ -11,6 +10,8 @@ import {
   Users,
 } from "lucide-react";
 import { BarChartCard, DonutChartCard } from "@/components/charts";
+import { useDrill } from "@/components/drill-drawer";
+import { ModeloFilter } from "@/components/modelo-filter";
 import {
   Card,
   ChartTitle,
@@ -21,21 +22,23 @@ import {
   PageHeader,
 } from "@/components/ui";
 import { fetchMetric } from "@/lib/api";
+import { marcoIdFromLabel } from "@/lib/drill";
 import { SERIES } from "@/lib/palette";
 import { GargalosData } from "@/lib/types";
-import { ModeloFilter } from "@/components/modelo-filter";
 import { useState } from "react";
 
 const short = (s: string) => s.replace(/^\d+\.\s*/, "");
 
 export default function GargalosPage() {
   const [modelo, setModelo] = useState<string | null>(null);
+  const { openDrill } = useDrill();
   const { data, isLoading, error } = useQuery({
     queryKey: ["gargalos", modelo],
     queryFn: () =>
       fetchMetric<GargalosData>("gargalos", modelo ? { modelo } : undefined),
   });
 
+  const base = modelo ? { modelo } : {};
   const marcoTop = data?.porMarco[0];
   const atrasoTop = data?.etapaMaiorAtraso[0];
   const origem = (o: string) => data?.tempoParadoPorOrigem.find((x) => x.origem === o);
@@ -57,14 +60,51 @@ export default function GargalosPage() {
       {data && (
         <div className="space-y-5">
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <KpiCard label="Onboarding > 15 dias" value={data.onboarding.acima15} accent="amber" icon={DoorOpen} />
-            <KpiCard label="Onboarding não concluído" value={data.onboarding.naoConcluido} accent="orange" icon={DoorOpen} />
+            <KpiCard
+              label="Onboarding > 15 dias"
+              value={data.onboarding.acima15}
+              accent="amber"
+              icon={DoorOpen}
+              onClick={() =>
+                openDrill({
+                  key: "gargalos.onboarding-acima",
+                  params: { ...base, bucketDias: 15 },
+                  titulo: "Onboarding acima de 15 dias",
+                  diasLabel: "Dias de projeto",
+                })
+              }
+            />
+            <KpiCard
+              label="Onboarding não concluído"
+              value={data.onboarding.naoConcluido}
+              accent="orange"
+              icon={DoorOpen}
+              onClick={() =>
+                openDrill({
+                  key: "gargalos.onboarding-nao-concluido",
+                  params: base,
+                  titulo: "Onboarding não concluído",
+                  diasLabel: "Dias de projeto",
+                })
+              }
+            />
             <KpiCard
               label="Marco mais travado"
               value={marcoTop?.tarefasAbertas ?? 0}
               hint={marcoTop ? short(marcoTop.marco) + " (tarefas abertas)" : undefined}
               accent="red"
               icon={Layers}
+              onClick={
+                marcoTop
+                  ? () =>
+                      openDrill({
+                        key: "gargalos.marco",
+                        params: { ...base, marcoId: marcoIdFromLabel(marcoTop.marco) },
+                        titulo: `Tarefas abertas — ${short(marcoTop.marco)}`,
+                        diasLabel: "Dias parado",
+                      })
+                  : undefined
+              }
             />
             <KpiCard
               label="Maior atraso (dias)"
@@ -72,6 +112,17 @@ export default function GargalosPage() {
               hint={atrasoTop?.etapa}
               accent="violet"
               icon={Hourglass}
+              onClick={
+                atrasoTop
+                  ? () =>
+                      openDrill({
+                        key: "gargalos.etapa-atraso",
+                        params: { ...base, etapa: atrasoTop.etapa },
+                        titulo: `Em atraso — ${atrasoTop.etapa}`,
+                        diasLabel: "Dias de atraso",
+                      })
+                  : undefined
+              }
             />
           </div>
 
@@ -79,19 +130,43 @@ export default function GargalosPage() {
             <Card>
               <ChartTitle>Tarefas abertas por marco</ChartTitle>
               <BarChartCard
-                data={data.porMarco.map((e) => ({ label: short(e.marco), value: e.tarefasAbertas }))}
+                data={data.porMarco.map((e) => ({
+                  label: short(e.marco),
+                  value: e.tarefasAbertas,
+                  meta: { marcoId: marcoIdFromLabel(e.marco) },
+                }))}
                 horizontal
                 multicolor
                 height={280}
+                onItemClick={(d) =>
+                  openDrill({
+                    key: "gargalos.marco",
+                    params: { ...base, marcoId: d.meta?.marcoId },
+                    titulo: `Tarefas abertas — ${d.label}`,
+                    diasLabel: "Dias parado",
+                  })
+                }
               />
             </Card>
             <Card>
               <ChartTitle>Excedente médio sobre o SLA por marco (dias)</ChartTitle>
               <BarChartCard
-                data={data.porMarco.map((e) => ({ label: short(e.marco), value: e.excedenteMedioDias ?? 0 }))}
+                data={data.porMarco.map((e) => ({
+                  label: short(e.marco),
+                  value: e.excedenteMedioDias ?? 0,
+                  meta: { marcoId: marcoIdFromLabel(e.marco) },
+                }))}
                 horizontal
                 color={SERIES[5]}
                 height={280}
+                onItemClick={(d) =>
+                  openDrill({
+                    key: "gargalos.marco",
+                    params: { ...base, marcoId: d.meta?.marcoId },
+                    titulo: `Tarefas abertas — ${d.label}`,
+                    diasLabel: "Dias parado",
+                  })
+                }
               />
             </Card>
           </div>
@@ -118,6 +193,14 @@ export default function GargalosPage() {
                       hint={`${d?.tarefas ?? 0} tarefas paradas`}
                       accent={ACCENT_ORIGEM[o]}
                       icon={icon}
+                      onClick={() =>
+                        openDrill({
+                          key: "gargalos.origem",
+                          params: { ...base, origem: o },
+                          titulo: `Tarefas paradas — ${d?.label ?? o}`,
+                          diasLabel: "Dias parado",
+                        })
+                      }
                     />
                   );
                 })}
@@ -125,8 +208,20 @@ export default function GargalosPage() {
               <Card>
                 <ChartTitle>Distribuição das tarefas paradas por origem</ChartTitle>
                 <DonutChartCard
-                  data={data.tempoParadoPorOrigem.map((o) => ({ label: o.label, value: o.tarefas }))}
+                  data={data.tempoParadoPorOrigem.map((o) => ({
+                    label: o.label,
+                    value: o.tarefas,
+                    meta: { origem: o.origem },
+                  }))}
                   height={240}
+                  onItemClick={(d) =>
+                    openDrill({
+                      key: "gargalos.origem",
+                      params: { ...base, origem: d.meta?.origem },
+                      titulo: `Tarefas paradas — ${d.label}`,
+                      diasLabel: "Dias parado",
+                    })
+                  }
                 />
               </Card>
             </div>
@@ -137,19 +232,42 @@ export default function GargalosPage() {
             <Card>
               <ChartTitle>Tempo médio real de conclusão por etapa (dias)</ChartTitle>
               <BarChartCard
-                data={data.etapaQueMaisTrava.map((e) => ({ label: e.etapa, value: e.tempoMedioDias }))}
+                data={data.etapaQueMaisTrava.map((e) => ({
+                  label: e.etapa,
+                  value: e.tempoMedioDias,
+                }))}
                 horizontal
                 color={SERIES[0]}
                 height={300}
+                onItemClick={(d) =>
+                  openDrill({
+                    key: "gargalos.etapa-trava",
+                    params: { ...base, etapa: d.label },
+                    titulo: `Concluídas — ${d.label}`,
+                    diasLabel: "Dias até concluir",
+                  })
+                }
               />
             </Card>
             <Card>
               <ChartTitle>Clientes parados (&gt;30 dias) por marco</ChartTitle>
               <BarChartCard
-                data={data.clientesParadosPorMarco.map((e) => ({ label: short(e.marco), value: e.clientes }))}
+                data={data.clientesParadosPorMarco.map((e) => ({
+                  label: short(e.marco),
+                  value: e.clientes,
+                  meta: { marcoId: marcoIdFromLabel(e.marco) },
+                }))}
                 horizontal
                 color={SERIES[5]}
                 height={300}
+                onItemClick={(d) =>
+                  openDrill({
+                    key: "gargalos.parados-marco",
+                    params: { ...base, marcoId: d.meta?.marcoId },
+                    titulo: `Parados >30d — ${d.label}`,
+                    diasLabel: "Dias sem evolução",
+                  })
+                }
               />
             </Card>
           </div>
@@ -169,7 +287,18 @@ export default function GargalosPage() {
               </thead>
               <tbody>
                 {data.etapaMaiorAtraso.map((e) => (
-                  <tr key={e.etapa} className="border-t">
+                  <tr
+                    key={e.etapa}
+                    className="cursor-pointer border-t hover:bg-[var(--surface-2)]/60"
+                    onClick={() =>
+                      openDrill({
+                        key: "gargalos.etapa-atraso",
+                        params: { ...base, etapa: e.etapa },
+                        titulo: `Em atraso — ${e.etapa}`,
+                        diasLabel: "Dias de atraso",
+                      })
+                    }
+                  >
                     <td className="px-5 py-3 font-medium">{e.etapa}</td>
                     <td className="px-5 py-3 tabular-nums">{e.diasAtrasoMedio}</td>
                     <td className="px-5 py-3 tabular-nums">{e.diasAtrasoMax}</td>
@@ -188,20 +317,37 @@ export default function GargalosPage() {
           </Card>
 
           <Card className="overflow-x-auto p-0">
-            <div className="p-5 pb-0">
-              <ChartTitle>Tempo médio por lista (movimentação real)</ChartTitle>
+            <div className="p-5 pb-1">
+              <ChartTitle>Quanto tempo cada etapa demora, na prática</ChartTitle>
+              <p className="-mt-2 mb-3 text-xs text-[var(--text-muted)]">
+                Tempo médio que uma tarefa fica parada em cada etapa, medido
+                pela movimentação real no ClickUp. &ldquo;Vezes que passou&rdquo;
+                é quantas tarefas já passaram por ali, não quantos clientes
+                estão na etapa hoje.
+              </p>
             </div>
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-[11px] uppercase tracking-[0.1em] text-[var(--text-muted)]">
-                  <th className="px-5 py-2 font-medium">Lista</th>
-                  <th className="px-5 py-2 font-medium">Passagens</th>
+                  <th className="px-5 py-2 font-medium">Etapa</th>
+                  <th className="px-5 py-2 font-medium">Vezes que passou</th>
                   <th className="px-5 py-2 font-medium">Tempo médio (dias)</th>
                 </tr>
               </thead>
               <tbody>
                 {data.tempoPorLista.map((l) => (
-                  <tr key={l.lista} className="border-t">
+                  <tr
+                    key={l.lista}
+                    className="cursor-pointer border-t hover:bg-[var(--surface-2)]/60"
+                    onClick={() =>
+                      openDrill({
+                        key: "gargalos.lista",
+                        params: { ...base, lista: l.lista },
+                        titulo: `Tarefas que passaram por ${l.lista}`,
+                        diasLabel: "Dias na etapa",
+                      })
+                    }
+                  >
                     <td className="px-5 py-3 font-medium">{l.lista}</td>
                     <td className="px-5 py-3 tabular-nums">{l.passagens}</td>
                     <td className="px-5 py-3 tabular-nums">{l.tempoMedioDias}</td>

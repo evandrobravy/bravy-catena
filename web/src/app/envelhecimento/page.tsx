@@ -6,6 +6,7 @@ import {
   Card,
   ChartTitle,
   ErrorState,
+  InfoNote,
   KpiCard,
   Loading,
   PageHeader,
@@ -14,10 +15,13 @@ import { fetchMetric } from "@/lib/api";
 import { SERIES } from "@/lib/palette";
 import { EnvelhecimentoData } from "@/lib/types";
 import { ModeloFilter } from "@/components/modelo-filter";
+import { useDrill } from "@/components/drill-drawer";
 import { useState } from "react";
 
 export default function EnvelhecimentoPage() {
   const [modelo, setModelo] = useState<string | null>(null);
+  const { openDrill } = useDrill();
+  const base = modelo ? { modelo } : {};
   const { data, isLoading, error } = useQuery({
     queryKey: ["envelhecimento", modelo],
     queryFn: () =>
@@ -44,6 +48,14 @@ export default function EnvelhecimentoPage() {
               value={data.tempoMedioDias}
               suffix="dias"
               accent="violet"
+              onClick={() =>
+                openDrill({
+                  key: "envelhecimento.tempo-medio",
+                  params: base,
+                  titulo: "Clientes ativos — idade na carteira",
+                  diasLabel: "Dias na carteira",
+                })
+              }
             />
             {data.faixas
               .filter((f) => ["121-180", "181-360", "360+"].includes(f.faixa))
@@ -53,6 +65,14 @@ export default function EnvelhecimentoPage() {
                   label={`Faixa ${f.faixa} dias`}
                   value={f.clientes}
                   accent={(["amber", "orange", "red"] as const)[i]}
+                  onClick={() =>
+                    openDrill({
+                      key: "envelhecimento.faixa",
+                      params: { ...base, faixa: f.faixa },
+                      titulo: `Clientes na faixa ${f.faixa} dias`,
+                      diasLabel: "Dias na carteira",
+                    })
+                  }
                 />
               ))}
           </div>
@@ -62,6 +82,14 @@ export default function EnvelhecimentoPage() {
               data={data.faixas.map((f) => ({ label: f.faixa, value: f.clientes }))}
               multicolor
               height={240}
+              onItemClick={(d) =>
+                openDrill({
+                  key: "envelhecimento.faixa",
+                  params: { ...base, faixa: d.label },
+                  titulo: `Clientes na faixa ${d.label} dias`,
+                  diasLabel: "Dias na carteira",
+                })
+              }
             />
           </Card>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -77,10 +105,33 @@ export default function EnvelhecimentoPage() {
                   }))}
                   color={SERIES[0]}
                   height={190}
+                  onItemClick={(d) =>
+                    openDrill({
+                      key: "envelhecimento.faixa",
+                      params: { modelo: m.modelo, faixa: d.label },
+                      titulo: `${m.modelo} — faixa ${d.label} dias`,
+                      diasLabel: "Dias na carteira",
+                    })
+                  }
                 />
               </Card>
             ))}
           </div>
+
+          <InfoNote>
+            {data.avisos.origem}
+            {data.baseDados.clienteMaisAntigoEm && (
+              <>
+                {" "}
+                Hoje a holding mais antiga no ClickUp entrou em{" "}
+                {new Date(data.baseDados.clienteMaisAntigoEm).toLocaleDateString(
+                  "pt-BR",
+                )}{" "}
+                ({data.baseDados.idadeMaximaDias} dias), por isso as faixas
+                acima de 360 dias aparecem vazias.
+              </>
+            )}
+          </InfoNote>
         </div>
       )}
     </div>
