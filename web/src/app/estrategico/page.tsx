@@ -74,8 +74,8 @@ export default function EstrategicoPage() {
 
           {data.cobertura.comValorInformado === 0 && (
             <InfoNote>
-              Nenhuma das {data.cobertura.holdings} holdings tem valor
-              patrimonial informado no ClickUp ainda, então os valores acima
+              Nenhuma das {data.cobertura.holdings}{" "}
+              holdings tem valor patrimonial informado no ClickUp ainda, então os valores acima
               aparecem zerados. O painel liga sozinho conforme o time preencher
               &ldquo;Patrimônio VLR Mercado&rdquo; (ou &ldquo;Patrimônio
               DIRPF&rdquo;) nas holdings.

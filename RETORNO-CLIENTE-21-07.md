@@ -50,11 +50,48 @@ Elaboração das Minutas 242 e 83,2, Solicitação de Documentos 90 e 78, e por 
 quantos clientes estão nela. Vale renomear pra algo como "Vezes que passou" e trocar
 o título por "Quanto tempo cada etapa demora, na prática".
 
-## Sequência sugerida
+## O que foi feito (31/07)
 
-1. Revisar e commitar as 28 modificações locais, rodar `verify-drill-parity.mjs`, deployar.
-2. Conferir contra a planilha o que caiu de pé sozinho com o deploy.
-3. Investigar o bug do "acima de 360 dias".
-4. Fechar os 4 itens pequenos: ordenação do Closer, seletor de seminários, os 2 de
-   Responsáveis, e renomear a tela de tempo por lista.
-5. Tratar o Estratégico Catena como escopo à parte, junto com o GHL.
+Commits `f817e95` e `d0ce85d`, deployados em produção.
+
+| Item do retorno | Status |
+|---|---|
+| 25× "clicar e abrir quem são" | Feito — drill-down foi pro ar |
+| 5× "por cliente e não tarefa" | Feito — já estava correto, faltava deploy |
+| 5× conversões do Comercial | Feito — mais uma tabela dedicada de conversões |
+| 7× Gargalos "não encontrei" | Feito |
+| 5× Responsáveis "não encontrei" | Feito — inclui os 2 que faltavam (em atraso e sem evolução por responsável), com drill próprio e % no prazo |
+| 3× Jornada/Progresso/Envelhecimento | Feito |
+| 7× ordenação no Closer | Feito — tabelas ordenáveis por qualquer coluna (Closer, Responsáveis, Comercial, Estratégico) |
+| 6× seletor de seminários | Feito — seletor isola a página inteira num seminário |
+| 1× tela de tempo por lista incompreensível | Feito — renomeada e explicada na própria tela |
+| 1× "acima de 360 dias" errado | Explicado na tela — não era erro de cálculo (ver abaixo) |
+| 7× Dashboard Estratégico | Estrutura feita; 5 dos 7 ligam sozinhos quando preencherem o ClickUp, 2 precisam de campo novo |
+| 3× mover Reuniões Comerciais | Não mexido — é decisão de UX deles, precisa confirmar antes |
+
+Verificação: build da api e do web, 367 checks de paridade card↔drill sem divergência,
+sync full local (72 holdings, 1230 tarefas) sem erro.
+
+### O "erro" das faixas acima de 360 dias
+
+Não é erro de cálculo. A idade conta a partir da criação da holding no ClickUp, e a
+holding mais antiga lá é de **23/10/2025** (281 dias). Nenhum cliente alcança 360 dias
+porque o ClickUp deles é mais novo que a carteira. Para refletir a entrada real seria
+preciso um campo "data de entrada" preenchido no ClickUp. O painel agora diz isso na tela
+em vez de parecer conta errada.
+
+### Dashboard Estratégico: o que trava
+
+Os campos `Patrimônio DIRPF` e `Patrimônio VLR Mercado` existem na list de Holdings mas
+estão **vazios nas 72 holdings** — por isso o painel mostra zero e avisa o motivo. Já
+`Quantidade de herdeiros` e `Valor dos imóveis estruturados` não têm campo nenhum no
+ClickUp; precisam ser criados antes de virarem indicador.
+
+## Pendente
+
+1. **UnniChat** (substituiu o GHL como CRM de leads deles): o acesso da Eliane exige 2FA
+   por e-mail, então não dá pra entrar sem o código. Sem entrar, não dá pra confirmar o
+   que a plataforma expõe de API/webhook.
+2. **Reuniões Comerciais**: confirmar com eles se querem mesmo fundir no Comercial/Closer.
+3. **Campos no ClickUp**: preencher patrimônio nas holdings e criar os campos de herdeiros
+   e imóveis, se quiserem os 2 indicadores que faltam.
