@@ -26,10 +26,22 @@ export class GhlService {
     private readonly config: ConfigService,
     private readonly limiter: GhlRateLimiter,
   ) {
-    this.token = this.config.getOrThrow<string>('GHL_PRIVATE_TOKEN');
-    this.locationId = this.config.getOrThrow<string>('GHL_LOCATION_ID');
+    // sem getOrThrow de propósito: a integração fica dormente até a credencial
+    // chegar, e faltar env var não pode derrubar a API inteira no boot.
+    this.token = this.config.get<string>('GHL_PRIVATE_TOKEN') ?? '';
+    this.locationId = this.config.get<string>('GHL_LOCATION_ID') ?? '';
     this.apiVersion =
       this.config.get<string>('GHL_API_VERSION') ?? '2021-07-28';
+  }
+
+  /** Há credencial real configurada? (placeholder "pending" não conta) */
+  get configurado(): boolean {
+    return (
+      this.token.length > 0 &&
+      this.token !== 'pending' &&
+      this.locationId.length > 0 &&
+      this.locationId !== 'pending'
+    );
   }
 
   private async request<T>(

@@ -17,6 +17,10 @@ export class GhlSyncService {
 
   /** Rescan completo dos contatos da location — ver plano, seção 3 (backfill). */
   async sync(): Promise<number> {
+    if (!this.ghl.configurado) {
+      this.logger.log('GHL sem credencial configurada — backfill ignorado.');
+      return 0;
+    }
     const contacts = await this.ghl.getAllContacts();
     this.logger.log(`Contatos GHL recebidos: ${contacts.length}`);
     let count = 0;
