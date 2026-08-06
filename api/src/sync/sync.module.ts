@@ -10,16 +10,19 @@ import { SnapshotService } from './snapshot.service';
 import { SyncController } from './sync.controller';
 import { SyncScheduler } from './sync.scheduler';
 import { SyncService } from './sync.service';
+import { UnnichatSyncService } from './unnichat-sync.service';
+import { UnnichatWebhookController } from './unnichat-webhook.controller';
 
 @Module({
   imports: [ClickUpModule, GhlModule],
-  controllers: [SyncController, GhlWebhookController],
+  controllers: [SyncController, GhlWebhookController, UnnichatWebhookController],
   providers: [
     SyncService,
     HoldingsSyncService,
     CommercialSyncService,
     OperacoesSyncService,
     GhlSyncService,
+    UnnichatSyncService,
     SnapshotService,
     SyncScheduler,
   ],

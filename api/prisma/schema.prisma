@@ -154,7 +154,8 @@ model Lead {
   id             String    @id @default(cuid())
   clickupId      String?   @unique
   ghlContactId   String?   @unique
-  fonte          String    @default("clickup") // "clickup" | "ghl"
+  externalId     String?   @unique // id da origem externa, prefixado ("unnichat:<id>")
+  fonte          String    @default("clickup") // "clickup" | "ghl" | "unnichat"
   name           String
   status         String // oportunidade ... negócio fechado
   seminario      String? // Seminário de Origem (01/02)
