@@ -38,12 +38,6 @@ export class UnnichatWebhookController {
       throw new ForbiddenException('token inválido');
     }
 
-    // TEMP (captura do shape real do payload UnniChat p/ mapear seminário) —
-    // remover depois de confirmar os campos. Ativado por UNNICHAT_DEBUG_BODY=1.
-    if (this.config.get<string>('UNNICHAT_DEBUG_BODY') === '1') {
-      this.logger.log(`UNNICHAT_RAW_BODY ${JSON.stringify(raw)}`);
-    }
-
     const mapped = mapUnnichatWebhook(raw ?? {});
     if (!mapped) {
       // 200 mesmo assim: payload inesperado não pode virar retry storm lá.

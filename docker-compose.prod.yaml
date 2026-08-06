@@ -36,7 +36,6 @@ services:
       - GHL_API_VERSION=${GHL_API_VERSION}
       - GHL_WEBHOOK_TOKEN=${GHL_WEBHOOK_TOKEN}
       - UNNICHAT_WEBHOOK_TOKEN=${UNNICHAT_WEBHOOK_TOKEN}
-      - UNNICHAT_DEBUG_BODY=${UNNICHAT_DEBUG_BODY:-0}
     depends_on:
       postgres:
         condition: service_healthy
