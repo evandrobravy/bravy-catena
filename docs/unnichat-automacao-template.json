@@ -1,0 +1,47 @@
+{
+  "name": "Bravy - Leads para o Dashboard",
+  "category": "automation",
+  "status": "idle",
+  "connectionType": "whatsapp",
+  "node": {
+    "triggers": [
+      {
+        "instagramSegment": "all",
+        "postSegment": "all",
+        "interaction": "created-contact",
+        "caseSentive": false
+      }
+    ],
+    "pos": "{\"x\":0,\"y\":0}",
+    "sonId": "ozEIGxw71REjmBiP0yYC",
+    "type": {
+      "id": "LxbzjXYACRzEFztCzrEy",
+      "icon": "init",
+      "tag": "init",
+      "color": "transparent"
+    },
+    "id": "LxbzjXYACRzEFztCzrEy",
+    "lastEditedBy": "eliane.adm@catena.adv.br",
+    "nodes": [
+      {
+        "httpRequest": {
+          "headerFields": [],
+          "method": "post",
+          "hasCustomBody": false,
+          "customBody": "",
+          "link": "https://catena-api.bravy.com.br/api/webhooks/unnichat?token=kiWFqt9gWbqXvNVItyxjFsvNafbzmQEe"
+        },
+        "pos": "{\"x\":252.5,\"y\":119.40625}",
+        "lastEditedBy": "eliane.adm@catena.adv.br",
+        "type": {
+          "id": "httpRequest",
+          "tag": "httpRequest",
+          "color": "transparent",
+          "icon": ""
+        },
+        "id": "ozEIGxw71REjmBiP0yYC"
+      }
+    ]
+  },
+  "customFieldsToCreate": {}
+}

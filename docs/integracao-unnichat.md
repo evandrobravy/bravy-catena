@@ -28,20 +28,47 @@ documentação pública de API:
 Conclusão: a integração é viável **sem depender do fornecedor**, configurando na
 própria conta deles.
 
-## Estado do acesso (bloqueio atual)
+## Acesso (resolvido)
 
-As credenciais que a Eliane mandou no grupo em 30/07 autenticam
-(`signInWithPassword` responde 200), mas a conta tem **2FA por e-mail**: a tela
-pede um código de 6 dígitos enviado para `eliane.adm@catena.adv.br`. Sem esse
-código não dá pra entrar e configurar.
+A conta tem **2FA por e-mail** (código de 6 dígitos pra `eliane.adm@catena.adv.br`
+a cada login). O plano deles só permite 3 usuários, então não deu pra criar um
+usuário nosso — a Eliane passou o código no grupo e entramos.
 
-Saídas possíveis, em ordem de preferência:
+Pra não depender do código a cada acesso, a sessão foi salva num **perfil
+persistente do Chromium** em `~/.credentials/clients/.unnichat-catena-profile`
+(inclui o IndexedDB do Firebase). Próximos acessos reusam a sessão sem 2FA
+enquanto o refresh token valer. Script: `keeper.js` (mantém o browser logado com
+CDP na 9222) + `driver.js` (dirige passo a passo). Se a sessão expirar, é só
+pedir um código novo à Eliane.
 
-1. Alguém da Catena com acesso a esse e-mail passa o código no momento em que
-   formos entrar (o código expira, então tem que ser combinado ao vivo).
-2. Eles criam um usuário nosso na conta do UnniChat, com e-mail nosso — resolve
-   de vez, sem depender de código de terceiro.
-3. Eles mesmos configuram o webhook seguindo o passo a passo abaixo.
+## Integração (CONCLUÍDA e no ar — 06/08)
+
+Feito **pelo lado deles**, via automação de saída, sem tocar nos 2 webhooks de
+entrada nem nas 6 automações que já existiam:
+
+- Automação **"Bravy - Leads para o Dashboard"** (Automações → Ativado).
+  - Gatilho: **Contato criado** (`created-contact`) — dispara pra todo contato
+    novo que entra no UnniChat.
+  - Ação: **Requisição HTTP** `POST` pra
+    `https://catena-api.bravy.com.br/api/webhooks/unnichat?token=<UNNICHAT_WEBHOOK_TOKEN>`,
+    enviando os dados do contato no corpo.
+- Template exportado salvo em `docs/unnichat-automacao-template.json` (pra
+  recriar por importação se precisar: modal Adicionar automação → Importar
+  Template JSON).
+
+**Verificado em produção (06/08):** um contato real ("Juliana") entrou no
+UnniChat, disparou a automação e caiu no dashboard — `fonte = "unnichat"`, painel
+Comercial passou a contar. UnniChat manda `id` (UUIDv7) e o nome; não manda
+seminário/closer no payload do contato (por isso entram vazios — ok pra volume).
+Se um dia quiserem seminário/closer por lead, dá pra ligar um **body
+customizável** no node HTTP mapeando as variáveis do contato.
+
+## Como estava o acesso antes (histórico)
+
+As credenciais que a Eliane mandou no grupo em 30/07 autenticam no Firebase, mas
+a tela trava no código de 6 dígitos. Reiniciar o login queima o código anterior —
+por isso o fluxo automatizado dispara o login uma vez e fica só alimentando o
+código que a Eliane manda no grupo.
 
 ## O que já está pronto do nosso lado
 
