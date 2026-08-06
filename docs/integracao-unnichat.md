@@ -60,6 +60,12 @@ Endpoint receptor de leads, no mesmo padrão do que tinha sido feito pro GHL:
 Telefone é normalizado pra DDI+DDD+número antes de virar chave, senão
 `(21) 97777-6666` e `+55 21 97777-6666` entrariam como dois leads.
 
+**No ar desde 06/08** (commits `ae98fa1` e `d5c9b3b`). Testado em produção: sem
+token e com token errado dá 403; payload válido grava o lead; reenvio do mesmo
+contato não duplica; payload irreconhecível responde `{ok:true,skipped:true}`.
+O valor do `UNNICHAT_WEBHOOK_TOKEN` está na env do Coolify e em
+`~/.credentials/clients/.catena_unnichat_token.tmp`.
+
 ## Passo a passo para configurar no UnniChat
 
 1. Entrar no UnniChat com a conta admin.
