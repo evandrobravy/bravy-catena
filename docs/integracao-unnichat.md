@@ -56,12 +56,43 @@ entrada nem nas 6 automações que já existiam:
   recriar por importação se precisar: modal Adicionar automação → Importar
   Template JSON).
 
-**Verificado em produção (06/08):** um contato real ("Juliana") entrou no
-UnniChat, disparou a automação e caiu no dashboard — `fonte = "unnichat"`, painel
-Comercial passou a contar. UnniChat manda `id` (UUIDv7) e o nome; não manda
-seminário/closer no payload do contato (por isso entram vazios — ok pra volume).
-Se um dia quiserem seminário/closer por lead, dá pra ligar um **body
-customizável** no node HTTP mapeando as variáveis do contato.
+**Verificado em produção (06/08):** contatos reais ("Juliana", "Celso Chagas")
+entraram no UnniChat, dispararam a automação e caíram no dashboard —
+`fonte = "unnichat"`, painel Comercial passou a contar.
+
+### Shape real do payload (capturado em prod)
+
+O body padrão do POST (método POST → "enviando os dados do contato no corpo"):
+
+```json
+{
+  "contact": {
+    "id": "019fd812-...",              // UUIDv7 → externalId
+    "name": "...", "email": "...",
+    "phoneNumber": "5521999990002",
+    "tags": "Seminário 01, Qualificado", // STRING separada por vírgula
+    "fields": { "utm_campaign": "...", "Seminário": "...", "Qualificação": "..." },
+    "instaName": "", "profilePicUrl": ""
+  },
+  "event_date": 1786036543,             // epoch s
+  "triggerData": {}
+}
+```
+
+Não precisou de body customizável — o padrão já traz tudo. O mapper
+(`lead.mapper.ts`) lê:
+- telefone de `phoneNumber` (normalizado DDI+DDD);
+- **seminário** = campo explícito (`seminario`/`origem`) → `fields.utm_campaign`/
+  `fields.utm_source` → 1ª tag (ordem de prioridade). O UnniChat NÃO tem um
+  campo "Seminário 01/02" fixo; a origem vive nas **tags** (campanha) e nos
+  **UTMs**. Testado em prod: utm_campaign="dividendos-julho" → seminário=isso;
+  tag "Seminário 01" → seminário="Seminário 01".
+- closer e status também olham os `fields` (Qualificação, atendente).
+
+Leads que entram sem tag/UTM ficam com seminário vazio (ex.: Juliana/Celso, que
+vieram sem campanha). Conforme o time taggeia/UTMa os leads, o seminário popula
+sozinho. Se quiserem normalizar pra "01/02", é regra de negócio: dá pra mapear
+tag/UTM→seminário no mapper depois que eles definirem a convenção.
 
 ## Como estava o acesso antes (histórico)
 
