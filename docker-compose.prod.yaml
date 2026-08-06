@@ -35,6 +35,7 @@ services:
       - GHL_LOCATION_ID=${GHL_LOCATION_ID}
       - GHL_API_VERSION=${GHL_API_VERSION}
       - GHL_WEBHOOK_TOKEN=${GHL_WEBHOOK_TOKEN}
+      - UNNICHAT_WEBHOOK_TOKEN=${UNNICHAT_WEBHOOK_TOKEN}
     depends_on:
       postgres:
         condition: service_healthy
